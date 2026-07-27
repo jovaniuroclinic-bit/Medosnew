@@ -1,0 +1,25 @@
+MEDOS WEB UROCLINIC IMPECABLE V3
+
+Incluye:
+- Inicio premium y responsivo.
+- Servicios ampliados.
+- Nueva página /programas.
+- Programas, rutas de atención y membresía en preparación, sin precios inventados.
+- Formulario conectado al webhook n8n existente medos-captura-web-intake-v2.
+- Mensaje de éxito mejorado, folio, copiar folio, nueva solicitud y acceso a programas.
+- Validación de teléfono y mensajes diferenciados de error.
+- Revisión humana obligatoria y modo PREVIEW.
+- Aviso de privacidad conservado.
+
+No incluye:
+- Activación o publicación de n8n.
+- Credenciales.
+- Cambios de DNS.
+- Datos reales de pacientes.
+- Precios, testimonios ni resultados médicos inventados.
+
+Aplicar desde el repositorio MEDOS:
+1. Respaldar apps/web.
+2. Copiar el contenido de apps/web de este paquete sobre apps/web del repositorio.
+3. Ejecutar: pnpm -C apps/web typecheck && pnpm -C apps/web build
+4. Reiniciar Astro preview y recargar el navegador con Ctrl+Shift+R.

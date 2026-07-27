@@ -1,0 +1,848 @@
+---
+import Base from "../layouts/Base.astro";
+
+const intakeEndpoint =
+  import.meta.env.PUBLIC_INTAKE_ENDPOINT ??
+  "http://127.0.0.1:5678/webhook-test/medos-captura-web-intake-v2";
+const formMode = import.meta.env.PUBLIC_FORM_MODE === "production" ? "production" : "preview";
+const isPreview = formMode === "preview";
+const whatsappHref =
+  "https://wa.me/528712557523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";
+---
+
+<Base
+  title="Solicitar valoración | UROCLINIC Dr. Jovani"
+  description="Envía una solicitud administrativa segura para conocer disponibilidad de valoración urológica, servicios o programas de UROCLINIC."
+>
+  <section class="page-hero contact-hero">
+    <div class="container contact-hero-grid">
+      <div>
+        <span class="eyebrow">Atención administrativa</span>
+        <h1>El primer paso puede ser simple, claro y confidencial</h1>
+        <p class="kicker">
+          Comparte únicamente tus datos mínimos. Un asistente revisará la solicitud y se comunicará contigo
+          para confirmar disponibilidad y orientarte sobre el siguiente paso.
+        </p>
+      </div>
+      <aside class="contact-options">
+        <span>También puedes contactarnos</span>
+        <a href="tel:+528713302526"><strong>Llamadas</strong><small>871 330 2526</small></a>
+        <a href={whatsappHref} rel="noopener noreferrer"><strong>WhatsApp</strong><small>871 255 7523</small></a>
+        <p>Atención programada. Este canal no sustituye urgencias médicas.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="solicitud" class="section section--soft">
+    <div class="container form-layout">
+      <div class="form-intro">
+        <span class="eyebrow">Solicitud segura</span>
+        <h2>Datos mínimos para que podamos orientarte</h2>
+        <p>
+          No describas síntomas detallados, diagnósticos, tratamientos ni envíes documentos médicos por
+          este formulario.
+        </p>
+        <ul class="clean-list">
+          <li>Nombre y teléfono para identificar la solicitud.</li>
+          <li>Correo opcional.</li>
+          <li>Motivo general de contacto.</li>
+          <li>Revisión humana antes de cualquier contacto.</li>
+        </ul>
+
+        {isPreview && (
+          <div class="callout callout--success preview-callout">
+            <strong>Modo PREVIEW activo</strong>
+            <p>Usa únicamente datos sintéticos. El flujo no debe publicarse ni recibir datos reales.</p>
+          </div>
+        )}
+
+        <div class="trust-mini-grid">
+          <article><strong>Privacidad</strong><span>Datos mínimos.</span></article>
+          <article><strong>Seriedad</strong><span>Sin promesas automáticas.</span></article>
+          <article><strong>Atención</strong><span>Revisión por una persona.</span></article>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <form
+          id="intake-form"
+          class="intake-form"
+          data-endpoint={intakeEndpoint}
+          data-mode={formMode}
+          data-completed="false"
+          novalidate
+        >
+          <div class="form-header">
+            <div>
+              <span class="tag">Paso 1 de 1</span>
+              <h3>Cuéntanos cómo podemos ayudarte</h3>
+            </div>
+            <span class="secure-label">Conexión segura</span>
+          </div>
+
+          <div id="form-fields">
+            <div id="program-context" class="program-context" hidden>
+              <strong>Interés seleccionado:</strong>
+              <span></span>
+            </div>
+
+            <div class="field">
+              <label for="name">Nombre completo</label>
+              <input id="name" name="name" type="text" autocomplete="name" minlength="3" maxlength="120" required />
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="phone">Teléfono</label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  inputmode="numeric"
+                  autocomplete="tel"
+                  minlength="10"
+                  maxlength="20"
+                  pattern="[0-9+() -]{10,20}"
+                  title="Escribe un teléfono válido de 10 a 15 dígitos."
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="email">Correo <span>(opcional)</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" maxlength="160" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="reason">Motivo general</label>
+              <select id="reason" name="reason" required>
+                <option value="">Selecciona una opción</option>
+                <option value="Solicitar disponibilidad de cita">Solicitar disponibilidad de cita</option>
+                <option value="Información sobre Valoración Esencial">Información sobre Valoración Esencial</option>
+                <option value="Información sobre Prevención Urológica">Información sobre Prevención Urológica</option>
+                <option value="Información sobre Continuidad UROCLINIC">Información sobre Continuidad UROCLINIC</option>
+                <option value="Información sobre Círculo UROCLINIC">Información sobre Círculo UROCLINIC</option>
+                <option value="Información sobre programas y membresías">Información sobre programas y membresías</option>
+                <option value="Solicitar segunda valoración">Solicitar segunda valoración</option>
+                <option value="Seguimiento administrativo">Seguimiento administrativo</option>
+                <option value="Otra consulta administrativa">Otra consulta administrativa</option>
+              </select>
+              <small>No describas síntomas, diagnósticos ni tratamientos.</small>
+            </div>
+
+            <div class="honeypot" aria-hidden="true">
+              <label for="website">Sitio web</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <label class="consent" for="consent">
+              <input id="consent" name="consent" type="checkbox" required />
+              <span>
+                He leído el <a href="/privacidad">aviso de privacidad</a> y autorizo el uso de estos
+                datos para gestionar mi solicitud administrativa.
+              </span>
+            </label>
+
+            <button class="button button--primary submit-button" type="submit">
+              <span class="button-label">Enviar solicitud segura</span>
+            </button>
+
+            <p class="form-footnote">El envío no confirma una cita. No utilices este medio para urgencias.</p>
+          </div>
+
+          <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+
+          <section id="success-panel" class="success-panel" hidden aria-labelledby="success-title">
+            <div class="success-icon" aria-hidden="true">✓</div>
+            <span class="tag">Solicitud recibida</span>
+            <h3 id="success-title">Gracias por confiar en UROCLINIC</h3>
+            <p class="success-lead">
+              Estamos procesando tu solicitud de forma segura. En breve, un asistente de atención se
+              comunicará contigo para confirmar disponibilidad y brindarte una orientación clara sobre el
+              siguiente paso.
+            </p>
+            <p class="success-reassurance">
+              No necesitas volver a enviarla. Conserva este folio para cualquier aclaración:
+            </p>
+            <div class="folio-box">
+              <span>Folio</span>
+              <strong id="folio-value"></strong>
+              <button id="copy-folio" type="button">Copiar</button>
+            </div>
+            <div class="success-actions">
+              <a class="button button--primary" href="/programas">Conocer servicios y programas</a>
+              <button id="new-request" class="button button--secondary" type="button">Nueva solicitud</button>
+            </div>
+          </section>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="next-title">
+    <div class="container next-grid">
+      <div>
+        <span class="eyebrow">Qué sucede después</span>
+        <h2 id="next-title">Tu solicitud entra a un proceso de revisión humana</h2>
+      </div>
+      <ol>
+        <li><strong>Recepción</strong><span>Se valida que la información sea suficiente y segura.</span></li>
+        <li><strong>Orientación</strong><span>Un asistente identifica el siguiente paso administrativo.</span></li>
+        <li><strong>Contacto</strong><span>Se confirma disponibilidad por un canal autorizado.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      const form = document.querySelector("#intake-form");
+      const status = document.querySelector("#form-status");
+      const fields = document.querySelector("#form-fields");
+      const successPanel = document.querySelector("#success-panel");
+      const folioValue = document.querySelector("#folio-value");
+      const copyFolio = document.querySelector("#copy-folio");
+      const newRequest = document.querySelector("#new-request");
+      const programContext = document.querySelector("#program-context");
+      const programContextLabel = programContext?.querySelector("span");
+
+      if (
+        !(form instanceof HTMLFormElement) ||
+        !(status instanceof HTMLElement) ||
+        !(fields instanceof HTMLElement) ||
+        !(successPanel instanceof HTMLElement) ||
+        !(folioValue instanceof HTMLElement)
+      ) return;
+
+      const submitButton = form.querySelector("button[type='submit']");
+      const buttonLabel = form.querySelector(".button-label");
+      const reasonField = form.querySelector("#reason");
+      const endpoint = form.dataset.endpoint ?? "";
+      const mode = form.dataset.mode === "production" ? "production" : "preview";
+
+      const programMap = {
+        "valoracion-esencial": "Información sobre Valoración Esencial",
+        "prevencion-urologica": "Información sobre Prevención Urológica",
+        "continuidad-uroclinic": "Información sobre Continuidad UROCLINIC",
+        "circulo-uroclinic": "Información sobre Círculo UROCLINIC",
+        programas: "Información sobre programas y membresías",
+        "segunda-valoracion": "Solicitar segunda valoración",
+        seguimiento: "Seguimiento administrativo",
+        "salud-prostatica": "Solicitar disponibilidad de cita",
+        "trastornos-urinarios": "Solicitar disponibilidad de cita",
+        infecciones: "Solicitar disponibilidad de cita",
+        litiasis: "Solicitar disponibilidad de cita",
+        "salud-sexual": "Solicitar disponibilidad de cita",
+      };
+
+      const selectedProgram = new URLSearchParams(globalThis.location.search).get("programa");
+      const selectedReason = selectedProgram ? programMap[selectedProgram] : null;
+      if (selectedReason && reasonField instanceof HTMLSelectElement) {
+        reasonField.value = selectedReason;
+        if (programContext instanceof HTMLElement && programContextLabel instanceof HTMLElement) {
+          programContext.hidden = false;
+          programContextLabel.textContent = selectedReason;
+        }
+      }
+
+      const makeId = () => {
+        if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+        return `medos-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      };
+
+      const setStatus = (message, state) => {
+        status.textContent = message;
+        status.dataset.state = state;
+      };
+
+      const showSuccess = (requestId) => {
+        form.dataset.completed = "true";
+        fields.hidden = true;
+        status.hidden = true;
+        successPanel.hidden = false;
+        folioValue.textContent = requestId;
+        successPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+      };
+
+      const resetForm = () => {
+        form.dataset.completed = "false";
+        form.reset();
+        fields.hidden = false;
+        status.hidden = false;
+        successPanel.hidden = true;
+        folioValue.textContent = "";
+        setStatus("", "idle");
+        if (selectedReason && reasonField instanceof HTMLSelectElement) reasonField.value = selectedReason;
+        const nameField = form.querySelector("#name");
+        if (nameField instanceof HTMLInputElement) nameField.focus();
+      };
+
+      newRequest?.addEventListener("click", resetForm);
+
+      copyFolio?.addEventListener("click", async () => {
+        const folio = folioValue.textContent ?? "";
+        if (!folio) return;
+        try {
+          await navigator.clipboard.writeText(folio);
+          if (copyFolio instanceof HTMLButtonElement) copyFolio.textContent = "Copiado";
+          globalThis.setTimeout(() => {
+            if (copyFolio instanceof HTMLButtonElement) copyFolio.textContent = "Copiar";
+          }, 1800);
+        } catch {
+          if (copyFolio instanceof HTMLButtonElement) copyFolio.textContent = "Selecciona el folio";
+        }
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        setStatus("", "idle");
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          setStatus("Revisa los campos obligatorios antes de continuar.", "error");
+          return;
+        }
+
+        if (!endpoint) {
+          setStatus("El canal de recepción todavía no está configurado.", "error");
+          return;
+        }
+
+        const data = new FormData(form);
+        const phoneField = form.querySelector("#phone");
+        const rawPhone = String(data.get("phone") ?? "").trim();
+        const normalizedPhone = rawPhone.replace(/\D/g, "");
+
+        if (normalizedPhone.length < 10 || normalizedPhone.length > 15) {
+          setStatus("Escribe un teléfono válido de 10 a 15 dígitos.", "error");
+          if (phoneField instanceof HTMLInputElement) phoneField.focus();
+          return;
+        }
+
+        const requestId = `web-${makeId()}`;
+        const payload = {
+          requestId,
+          name: String(data.get("name") ?? "").trim(),
+          phone: normalizedPhone,
+          email: String(data.get("email") ?? "").trim().toLowerCase(),
+          reason: String(data.get("reason") ?? "").trim(),
+          consent: {
+            accepted: data.get("consent") === "on",
+            purpose: "appointment_request",
+          },
+          createdAt: new Date().toISOString(),
+          idempotencyKey: requestId,
+          website: String(data.get("website") ?? ""),
+          synthetic: mode !== "production",
+        };
+
+        if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
+        if (buttonLabel instanceof HTMLElement) buttonLabel.textContent = "Procesando solicitud…";
+        form.setAttribute("aria-busy", "true");
+        setStatus("Validando y enviando tu solicitud de forma segura…", "loading");
+
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          let result = null;
+          try {
+            result = await response.json();
+          } catch {
+            result = null;
+          }
+
+          if (!response.ok || result?.accepted !== true) {
+            if (response.status === 404) {
+              setStatus(
+                "El webhook de prueba no está escuchando. Abre el workflow en n8n y pulsa Execute workflow.",
+                "error",
+              );
+            } else {
+              setStatus(
+                "La solicitud llegó al sistema, pero fue rechazada por validación. Revisa teléfono, motivo y consentimiento.",
+                "error",
+              );
+            }
+            return;
+          }
+
+          const receivedRequestId = String(result.requestId ?? requestId);
+          form.reset();
+          showSuccess(receivedRequestId);
+        } catch {
+          setStatus(
+            "No se pudo comunicar con n8n. Comprueba que el servidor local siga abierto y que el workflow esté escuchando.",
+            "error",
+          );
+        } finally {
+          if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+          if (buttonLabel instanceof HTMLElement) buttonLabel.textContent = "Enviar solicitud segura";
+          form.removeAttribute("aria-busy");
+        }
+      });
+    })();
+  </script>
+
+  <style>
+    .contact-hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: clamp(2.5rem, 7vw, 6rem);
+    }
+
+    .contact-options {
+      padding: clamp(1.4rem, 4vw, 2.2rem);
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .contact-options > span {
+      display: block;
+      margin-bottom: 0.8rem;
+      color: var(--blue);
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .contact-options a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--navy-deep);
+      text-decoration: none;
+    }
+
+    .contact-options strong,
+    .contact-options small {
+      display: block;
+    }
+
+    .contact-options small {
+      color: var(--ink-soft);
+    }
+
+    .contact-options p {
+      margin: 1rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+    }
+
+    .form-layout {
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+      align-items: start;
+      gap: clamp(2.5rem, 7vw, 6rem);
+    }
+
+    .form-intro h2 {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-intro > p {
+      color: var(--ink-soft);
+    }
+
+    .form-intro .clean-list {
+      margin-top: 1.5rem;
+    }
+
+    .preview-callout {
+      margin-top: 1.5rem;
+    }
+
+    .trust-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-top: 1.4rem;
+    }
+
+    .trust-mini-grid article {
+      padding: 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 0.9rem;
+      background: #fff;
+    }
+
+    .trust-mini-grid strong,
+    .trust-mini-grid span {
+      display: block;
+    }
+
+    .trust-mini-grid strong {
+      color: var(--navy-deep);
+      font-size: 0.78rem;
+    }
+
+    .trust-mini-grid span {
+      margin-top: 0.15rem;
+      color: var(--ink-soft);
+      font-size: 0.66rem;
+    }
+
+    .form-card {
+      position: sticky;
+      top: 7rem;
+    }
+
+    .intake-form {
+      overflow: hidden;
+      padding: clamp(1.35rem, 4vw, 2.4rem);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .form-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .form-header h3 {
+      margin-top: 0.7rem;
+    }
+
+    .secure-label {
+      color: var(--success);
+      font-size: 0.72rem;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .secure-label::before {
+      margin-right: 0.35rem;
+      content: "●";
+    }
+
+    .program-context {
+      margin-bottom: 1rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid #acdcd3;
+      border-radius: 0.9rem;
+      background: #edf9f6;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+    }
+
+    .program-context strong,
+    .program-context span {
+      display: block;
+    }
+
+    .program-context strong {
+      color: var(--success);
+    }
+
+    .field,
+    .field-grid {
+      margin-bottom: 1.1rem;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field-grid .field {
+      margin-bottom: 0;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--navy-deep);
+      font-size: 0.9rem;
+      font-weight: 850;
+    }
+
+    .field label span {
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 3.35rem;
+      padding: 0.8rem 0.95rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 0.85rem;
+      background: #fff;
+      color: var(--ink);
+      transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--blue);
+      outline: 0;
+      box-shadow: 0 0 0 4px rgba(8, 121, 181, 0.12);
+    }
+
+    .field small {
+      display: block;
+      margin-top: 0.4rem;
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+    }
+
+    .honeypot {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .consent {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: start;
+      gap: 0.7rem;
+      margin: 1.25rem 0;
+      color: var(--ink-soft);
+      font-size: 0.86rem;
+    }
+
+    .consent input {
+      width: 1.15rem;
+      height: 1.15rem;
+      margin-top: 0.2rem;
+      accent-color: var(--blue);
+    }
+
+    .submit-button {
+      width: 100%;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .submit-button:disabled {
+      cursor: wait;
+      opacity: 0.72;
+    }
+
+    .form-footnote {
+      margin: 0.8rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .form-status {
+      margin-top: 0.9rem;
+      padding: 0.85rem;
+      border-radius: 0.8rem;
+      font-size: 0.84rem;
+      font-weight: 750;
+    }
+
+    .form-status:empty {
+      display: none;
+    }
+
+    .form-status[data-state="loading"] {
+      background: #eaf5fb;
+      color: var(--navy);
+    }
+
+    .form-status[data-state="success"] {
+      background: #e5f6ef;
+      color: var(--success);
+    }
+
+    .form-status[data-state="error"] {
+      background: #fff0f0;
+      color: var(--danger);
+    }
+
+    .success-panel {
+      padding: clamp(1rem, 3vw, 1.6rem);
+      text-align: center;
+    }
+
+    .success-icon {
+      display: grid;
+      width: 4.4rem;
+      height: 4.4rem;
+      margin: 0 auto 1.1rem;
+      place-items: center;
+      border-radius: 1.4rem;
+      background: linear-gradient(145deg, #dff7ef, #e7f8fb);
+      color: var(--success);
+      font-size: 2rem;
+      font-weight: 950;
+      box-shadow: 0 12px 32px rgba(8, 121, 91, 0.14);
+    }
+
+    .success-panel h3 {
+      margin-top: 1rem;
+      font-size: clamp(1.6rem, 4vw, 2.25rem);
+    }
+
+    .success-lead {
+      max-width: 34rem;
+      margin: 1rem auto;
+      color: var(--ink-soft);
+      font-size: 1rem;
+    }
+
+    .success-reassurance {
+      margin: 0.8rem 0;
+      color: var(--navy-deep);
+      font-size: 0.84rem;
+      font-weight: 750;
+    }
+
+    .folio-box {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.7rem;
+      max-width: 34rem;
+      margin: 1rem auto 1.4rem;
+      padding: 0.85rem 1rem;
+      border: 1px dashed #9fcfc5;
+      border-radius: 0.9rem;
+      background: #f1faf7;
+      text-align: left;
+    }
+
+    .folio-box span {
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .folio-box strong {
+      overflow-wrap: anywhere;
+      color: var(--success);
+      font-size: 0.82rem;
+    }
+
+    .folio-box button {
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #aad7ce;
+      border-radius: 0.6rem;
+      background: #fff;
+      color: var(--success);
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 850;
+    }
+
+    .success-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.65rem;
+    }
+
+    .success-actions button {
+      cursor: pointer;
+    }
+
+    .next-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: start;
+      gap: clamp(2.5rem, 7vw, 6rem);
+    }
+
+    .next-grid ol {
+      display: grid;
+      gap: 0.8rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .next-grid li {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .next-grid li:last-child {
+      border-bottom: 0;
+    }
+
+    .next-grid strong {
+      color: var(--navy-deep);
+    }
+
+    .next-grid span {
+      color: var(--ink-soft);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 64rem) {
+      .contact-hero-grid,
+      .form-layout,
+      .next-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 42rem) {
+      .field-grid,
+      .trust-mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-header {
+        flex-direction: column;
+      }
+
+      .folio-box {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .success-actions {
+        display: grid;
+      }
+
+      .next-grid li {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+  </style>
+</Base>

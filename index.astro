@@ -1,0 +1,971 @@
+---
+import Base from "../layouts/Base.astro";
+
+const whatsappHref =
+  "https://wa.me/528712557523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";
+---
+
+<Base
+  title="Urólogo en Torreón | UROCLINIC Dr. Jovani"
+  description="Atención urológica en Torreón con privacidad, comunicación clara y revisión humana. Conoce servicios, programas y solicita disponibilidad de cita."
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Urología en Torreón, Coahuila</span>
+        <h1>Tu salud urológica merece atención seria, clara y humana</h1>
+        <p class="hero-lead">
+          Una experiencia diseñada para que entiendas el siguiente paso, te sientas acompañado y puedas
+          solicitar una valoración con confianza, privacidad y seguimiento personal.
+        </p>
+        <div class="button-row">
+          <a class="button button--primary" href="/contacto#solicitud">Solicitar valoración</a>
+          <a class="button button--secondary" href="/programas">Conocer programas</a>
+        </div>
+        <div class="hero-trust" aria-label="Compromisos de atención">
+          <span>Revisión humana</span>
+          <span>Privacidad</span>
+          <span>Comunicación clara</span>
+        </div>
+      </div>
+
+      <aside class="hero-visual" aria-label="Presentación de UROCLINIC">
+        <div class="visual-orbit visual-orbit--one"></div>
+        <div class="visual-orbit visual-orbit--two"></div>
+        <div class="doctor-card">
+          <div class="doctor-card-top">
+            <span class="doctor-seal" aria-hidden="true">U</span>
+            <div>
+              <small>UROCLINIC</small>
+              <strong>Dr. E. Jovani<br />Torres Guevara</strong>
+              <span>Especialista en Urología</span>
+            </div>
+          </div>
+          <div class="doctor-card-body">
+            <div>
+              <span>Consulta programada</span>
+              <strong>Torreón, Coahuila</strong>
+            </div>
+            <div>
+              <span>Contacto directo</span>
+              <strong>871 330 2526</strong>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <span>Céd. Prof. 7769599</span>
+            <span>Céd. Esp. 11068744</span>
+          </div>
+        </div>
+        <div class="floating-card floating-card--privacy">
+          <strong>Privacidad primero</strong>
+          <span>Tu solicitud pasa por revisión humana.</span>
+        </div>
+        <div class="floating-card floating-card--care">
+          <strong>Atención personalizada</strong>
+          <span>Sin respuestas clínicas automáticas.</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="trust-bar" aria-label="Diferenciadores de UROCLINIC">
+    <div class="container trust-grid">
+      <div><strong>01</strong><span>Escucha y valoración individual</span></div>
+      <div><strong>02</strong><span>Explicaciones comprensibles</span></div>
+      <div><strong>03</strong><span>Seguimiento humano</span></div>
+      <div><strong>04</strong><span>Protección de datos</span></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="motivos-title">
+    <div class="container">
+      <div class="section-heading section-heading--center">
+        <span class="eyebrow">Áreas de atención</span>
+        <h2 id="motivos-title">Soluciones urológicas organizadas alrededor de tus necesidades</h2>
+        <p>
+          Cada persona requiere una valoración individual. Estas áreas te ayudan a identificar la ruta de
+          atención más adecuada para comenzar.
+        </p>
+      </div>
+
+      <div class="grid grid--3 services-preview">
+        <article class="card service-card">
+          <span class="icon-badge" aria-hidden="true">P</span>
+          <h3>Salud prostática</h3>
+          <p>Valoración preventiva, síntomas urinarios y seguimiento según edad y antecedentes.</p>
+          <a href="/servicios#prostata">Conocer atención <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="card service-card">
+          <span class="icon-badge" aria-hidden="true">U</span>
+          <h3>Trastornos urinarios</h3>
+          <p>Evaluación de molestias, cambios en la micción, incontinencia o dificultad para orinar.</p>
+          <a href="/servicios#urinarios">Conocer atención <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="card service-card">
+          <span class="icon-badge" aria-hidden="true">S</span>
+          <h3>Salud sexual masculina</h3>
+          <p>Consulta confidencial, respetuosa y orientada a identificar factores relevantes.</p>
+          <a href="/servicios#salud-sexual">Conocer atención <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="card service-card">
+          <span class="icon-badge" aria-hidden="true">I</span>
+          <h3>Infecciones y recurrencias</h3>
+          <p>Revisión de episodios previos, factores asociados y opciones de seguimiento.</p>
+          <a href="/servicios#infecciones">Conocer atención <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="card service-card">
+          <span class="icon-badge" aria-hidden="true">L</span>
+          <h3>Litiasis urinaria</h3>
+          <p>Valoración de cálculos urinarios, estudios existentes y prevención de recurrencias.</p>
+          <a href="/servicios#litiasis">Conocer atención <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="card service-card card--featured">
+          <span class="tag">Atención integral</span>
+          <h3>Segunda valoración y seguimiento</h3>
+          <p>Revisión clínica de antecedentes y continuidad de cuidados cuando corresponda.</p>
+          <a href="/contacto?programa=segunda-valoracion#solicitud">Solicitar información <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="programas" class="section section--tint" aria-labelledby="programas-title">
+    <div class="container">
+      <div class="programs-intro">
+        <div class="section-heading">
+          <span class="eyebrow">Rutas de atención</span>
+          <h2 id="programas-title">Programas pensados para avanzar con orden y tranquilidad</h2>
+          <p>
+            Elige el punto de partida que mejor se adapte a lo que buscas. El contenido final siempre se
+            define después de una valoración médica y está sujeto a disponibilidad.
+          </p>
+        </div>
+        <a class="button button--secondary" href="/programas">Ver todos los programas</a>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card program-card">
+          <span class="program-number">01</span>
+          <span class="tag">Primer paso</span>
+          <h3>Valoración Esencial</h3>
+          <p>Para iniciar con una revisión ordenada, entender prioridades y definir los siguientes pasos.</p>
+          <ul class="clean-list">
+            <li>Consulta urológica inicial.</li>
+            <li>Revisión de antecedentes.</li>
+            <li>Plan de seguimiento individual.</li>
+          </ul>
+          <a class="button button--secondary" href="/contacto?programa=valoracion-esencial#solicitud">Solicitar información</a>
+        </article>
+
+        <article class="card card--featured program-card">
+          <span class="program-number">02</span>
+          <span class="tag">Prevención</span>
+          <h3>Prevención Urológica</h3>
+          <p>Para quienes desean cuidar su salud urológica de manera anticipada y con seguimiento.</p>
+          <ul class="clean-list">
+            <li>Revisión de factores personales.</li>
+            <li>Orientación preventiva individual.</li>
+            <li>Calendario de seguimiento.</li>
+          </ul>
+          <a class="button button--primary" href="/contacto?programa=prevencion-urologica#solicitud">Quiero conocerlo</a>
+        </article>
+
+        <article class="card program-card">
+          <span class="program-number">03</span>
+          <span class="tag">Continuidad</span>
+          <h3>Continuidad UROCLINIC</h3>
+          <p>Para mantener el seguimiento administrativo y clínico indicado sin perder el rumbo.</p>
+          <ul class="clean-list">
+            <li>Organización de controles.</li>
+            <li>Recordatorios administrativos.</li>
+            <li>Canal de orientación para seguimiento.</li>
+          </ul>
+          <a class="button button--secondary" href="/contacto?programa=continuidad-uroclinic#solicitud">Solicitar información</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark" aria-labelledby="confianza-title">
+    <div class="container confidence-grid">
+      <div>
+        <span class="eyebrow">Confianza y seriedad</span>
+        <h2 id="confianza-title">La tecnología organiza. La decisión y la atención siguen siendo humanas.</h2>
+        <p>
+          UROCLINIC utiliza herramientas administrativas para recibir solicitudes y reducir errores, pero
+          no automatiza diagnósticos, tratamientos ni decisiones clínicas.
+        </p>
+        <div class="button-row">
+          <a class="button button--light" href="/contacto#solicitud">Iniciar solicitud</a>
+          <a class="button button--ghost-light" href="/privacidad">Conocer privacidad</a>
+        </div>
+      </div>
+      <div class="confidence-list">
+        <article>
+          <strong>Revisión humana obligatoria</strong>
+          <span>Cada solicitud se revisa antes de autorizar contacto.</span>
+        </article>
+        <article>
+          <strong>Datos mínimos</strong>
+          <span>El formulario público no solicita expediente, estudios ni fotografías.</span>
+        </article>
+        <article>
+          <strong>Comunicación responsable</strong>
+          <span>No se prometen resultados y cada caso requiere valoración individual.</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="doctor-title">
+    <div class="container doctor-section">
+      <div class="doctor-monogram" aria-hidden="true">
+        <span>U</span>
+        <small>UROLOGÍA</small>
+      </div>
+      <div>
+        <span class="eyebrow">Atención profesional</span>
+        <h2 id="doctor-title">Dr. E. Jovani Torres Guevara</h2>
+        <p class="kicker">
+          Especialista en Urología con consulta en el centro de Torreón. El enfoque de atención parte de
+          escuchar, explicar y construir un plan individual según la valoración médica.
+        </p>
+        <div class="credential-row">
+          <span>Cédula profesional 7769599</span>
+          <span>Cédula de especialidad 11068744</span>
+        </div>
+        <div class="button-row">
+          <a class="button button--primary" href="/contacto#solicitud">Solicitar valoración</a>
+          <a class="button button--secondary" href="https://www.drjovaniurologo.com/" rel="noopener noreferrer">Ver perfil profesional</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="process-title">
+    <div class="container process-grid">
+      <div class="section-heading">
+        <span class="eyebrow">Así funciona</span>
+        <h2 id="process-title">Un proceso sencillo para que sepas qué esperar</h2>
+        <p>Sin presión, sin promesas exageradas y con una persona revisando cada solicitud.</p>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <span>1</span>
+          <div>
+            <strong>Envías tus datos mínimos</strong>
+            <p>Nombre, teléfono y motivo general. No envíes síntomas detallados ni documentos.</p>
+          </div>
+        </li>
+        <li>
+          <span>2</span>
+          <div>
+            <strong>El sistema valida la solicitud</strong>
+            <p>Se revisan formato, duplicados y señales de spam sin emitir decisiones clínicas.</p>
+          </div>
+        </li>
+        <li>
+          <span>3</span>
+          <div>
+            <strong>Un asistente la revisa</strong>
+            <p>El equipo confirma disponibilidad y te orienta sobre el siguiente paso.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="location-title">
+    <div class="container location-card">
+      <div>
+        <span class="eyebrow">Ubicación</span>
+        <h2 id="location-title">Consultorio en el centro de Torreón</h2>
+        <p>Ignacio Allende Oriente 139, Primero de Cobián Centro, CP 27000, Torreón, Coahuila.</p>
+        <div class="button-row">
+          <a class="button button--primary" href="/contacto#solicitud">Solicitar valoración</a>
+          <a
+            class="button button--secondary"
+            href="https://www.google.com/maps/search/?api=1&query=Ignacio%20Allende%20Oriente%20139%2C%20Torre%C3%B3n%2C%20Coahuila"
+            rel="noopener noreferrer"
+          >
+            Ver ubicación
+          </a>
+        </div>
+      </div>
+      <div class="location-contact">
+        <span>Atención programada</span>
+        <a href="tel:+528713302526">871 330 2526</a>
+        <a href={whatsappHref} rel="noopener noreferrer">WhatsApp 871 255 7523</a>
+        <small>Ante una urgencia médica, llama al 911 o acude a urgencias.</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="faq-title">
+    <div class="narrow">
+      <div class="section-heading section-heading--center">
+        <span class="eyebrow">Preguntas frecuentes</span>
+        <h2 id="faq-title">Información clara antes de comenzar</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>¿El formulario confirma automáticamente una cita?</summary>
+          <p>No. Registra una solicitud administrativa que debe ser revisada por el equipo de atención.</p>
+        </details>
+        <details>
+          <summary>¿Puedo enviar resultados o fotografías?</summary>
+          <p>No por este formulario. El equipo te indicará el canal adecuado cuando corresponda.</p>
+        </details>
+        <details>
+          <summary>¿Los programas incluyen siempre los mismos estudios?</summary>
+          <p>No. Los estudios y el seguimiento dependen de la valoración médica individual.</p>
+        </details>
+        <details>
+          <summary>¿La información del sitio es un diagnóstico?</summary>
+          <p>No. Es información general y no sustituye una consulta médica.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container final-cta-inner">
+      <div>
+        <span class="eyebrow">Tu siguiente paso</span>
+        <h2>Da el primer paso con información, privacidad y acompañamiento</h2>
+        <p>Envía una solicitud breve. El equipo de UROCLINIC la revisará antes de comunicarse contigo.</p>
+      </div>
+      <a class="button button--light" href="/contacto#solicitud">Solicitar valoración</a>
+    </div>
+  </section>
+
+  <style>
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding-block: clamp(4.75rem, 10vw, 8.5rem);
+      background:
+        radial-gradient(circle at 84% 12%, rgba(14, 155, 146, 0.18), transparent 30rem),
+        radial-gradient(circle at 8% 84%, rgba(26, 155, 210, 0.12), transparent 25rem),
+        linear-gradient(135deg, #f9fcfe 0%, #eff8f8 52%, #f8fbfd 100%);
+    }
+
+    .hero::before {
+      position: absolute;
+      top: -17rem;
+      left: -12rem;
+      width: 38rem;
+      height: 38rem;
+      border: 1px solid rgba(8, 121, 181, 0.08);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(25rem, 0.92fr);
+      align-items: center;
+      gap: clamp(3rem, 7vw, 7rem);
+    }
+
+    .hero-copy {
+      max-width: 50rem;
+    }
+
+    .hero-copy h1 {
+      max-width: 52rem;
+    }
+
+    .hero-lead {
+      max-width: 44rem;
+      margin: 1.5rem 0 1.8rem;
+      color: var(--ink-soft);
+      font-size: clamp(1.12rem, 2.4vw, 1.34rem);
+    }
+
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+    }
+
+    .hero-trust span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      font-weight: 750;
+    }
+
+    .hero-trust span::before {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 4px rgba(14, 155, 146, 0.1);
+      content: "";
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 35rem;
+    }
+
+    .visual-orbit {
+      position: absolute;
+      border: 1px solid rgba(8, 121, 181, 0.12);
+      border-radius: 50%;
+    }
+
+    .visual-orbit--one {
+      inset: 1rem 0 0 4rem;
+    }
+
+    .visual-orbit--two {
+      inset: 5rem 4rem 4rem 0;
+      border-color: rgba(14, 155, 146, 0.14);
+    }
+
+    .doctor-card {
+      position: absolute;
+      z-index: 2;
+      inset: 3rem 2rem 3rem 3rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 2.5rem;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(18px);
+    }
+
+    .doctor-card-top {
+      display: flex;
+      min-height: 18rem;
+      align-items: center;
+      gap: 1.4rem;
+      padding: 2rem;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(26, 155, 210, 0.42), transparent 17rem),
+        linear-gradient(145deg, #043b5b, #08648d 55%, #0d8e93);
+      color: #fff;
+    }
+
+    .doctor-seal {
+      display: grid;
+      flex: 0 0 5.4rem;
+      width: 5.4rem;
+      height: 5.4rem;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 1.7rem;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 3rem;
+      font-weight: 900;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .doctor-card-top small,
+    .doctor-card-top strong,
+    .doctor-card-top span {
+      display: block;
+    }
+
+    .doctor-card-top small {
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+    }
+
+    .doctor-card-top strong {
+      font-size: clamp(1.6rem, 3.4vw, 2.35rem);
+      line-height: 1.05;
+    }
+
+    .doctor-card-top span {
+      margin-top: 0.7rem;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .doctor-card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .doctor-card-body div {
+      padding: 1.15rem 1.3rem;
+      background: #fff;
+    }
+
+    .doctor-card-body span,
+    .doctor-card-body strong {
+      display: block;
+    }
+
+    .doctor-card-body span {
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+    }
+
+    .doctor-card-body strong {
+      margin-top: 0.2rem;
+      color: var(--navy-deep);
+      font-size: 0.88rem;
+    }
+
+    .doctor-card-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      padding: 1rem 1.3rem;
+      color: var(--ink-soft);
+      font-size: 0.7rem;
+    }
+
+    .floating-card {
+      position: absolute;
+      z-index: 3;
+      width: 13rem;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 1.1rem;
+      background: rgba(255, 255, 255, 0.93);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .floating-card strong,
+    .floating-card span {
+      display: block;
+    }
+
+    .floating-card strong {
+      color: var(--navy-deep);
+      font-size: 0.82rem;
+    }
+
+    .floating-card span {
+      margin-top: 0.25rem;
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .floating-card--privacy {
+      top: 0;
+      right: -1rem;
+    }
+
+    .floating-card--care {
+      bottom: 0;
+      left: -1rem;
+    }
+
+    .trust-bar {
+      border-block: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .trust-grid div {
+      display: flex;
+      min-height: 6rem;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-right: 1px solid var(--line);
+    }
+
+    .trust-grid div:last-child {
+      border-right: 0;
+    }
+
+    .trust-grid strong {
+      color: var(--teal);
+      font-size: 0.78rem;
+    }
+
+    .trust-grid span {
+      color: var(--navy-deep);
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .service-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .programs-intro {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .program-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .program-number {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.4rem;
+      color: rgba(3, 47, 75, 0.09);
+      font-size: 4rem;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .program-card h3 {
+      margin-top: 1rem;
+    }
+
+    .program-card .clean-list {
+      margin: 1rem 0 1.4rem;
+    }
+
+    .program-card .button {
+      margin-top: auto;
+    }
+
+    .confidence-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      align-items: center;
+      gap: clamp(3rem, 8vw, 7rem);
+    }
+
+    .confidence-grid > div:first-child p {
+      max-width: 42rem;
+      margin: 1.2rem 0 1.7rem;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 1.08rem;
+    }
+
+    .confidence-list {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .confidence-list article {
+      padding: 1.25rem 1.3rem;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(12px);
+    }
+
+    .confidence-list strong,
+    .confidence-list span {
+      display: block;
+    }
+
+    .confidence-list strong {
+      color: #fff;
+    }
+
+    .confidence-list span {
+      margin-top: 0.25rem;
+      color: rgba(255, 255, 255, 0.67);
+      font-size: 0.86rem;
+    }
+
+    .doctor-section {
+      display: grid;
+      grid-template-columns: 0.65fr 1.35fr;
+      align-items: center;
+      gap: clamp(2.5rem, 7vw, 6rem);
+    }
+
+    .doctor-monogram {
+      display: grid;
+      min-height: 25rem;
+      place-items: center;
+      align-content: center;
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at 80% 10%, rgba(26, 155, 210, 0.36), transparent 13rem),
+        linear-gradient(145deg, var(--navy-deep), var(--blue));
+      color: #fff;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .doctor-monogram span,
+    .doctor-monogram small {
+      display: block;
+    }
+
+    .doctor-monogram span {
+      font-size: clamp(5rem, 12vw, 9rem);
+      font-weight: 950;
+      line-height: 0.9;
+    }
+
+    .doctor-monogram small {
+      margin-top: 1rem;
+      color: rgba(255, 255, 255, 0.72);
+      font-weight: 850;
+      letter-spacing: 0.18em;
+    }
+
+    .credential-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: 1.5rem 0;
+    }
+
+    .credential-row span {
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+      font-weight: 750;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: clamp(2.5rem, 7vw, 6rem);
+    }
+
+    .steps {
+      display: grid;
+      gap: 0.85rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .steps li > span {
+      display: grid;
+      width: 2.7rem;
+      height: 2.7rem;
+      place-items: center;
+      border-radius: 0.9rem;
+      background: var(--teal-soft);
+      color: var(--navy-deep);
+      font-weight: 900;
+    }
+
+    .steps strong {
+      display: block;
+      color: var(--navy-deep);
+    }
+
+    .steps p {
+      margin: 0.2rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    .location-card {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: stretch;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .location-card > div:first-child {
+      padding: clamp(2rem, 5vw, 4rem);
+    }
+
+    .location-card p {
+      max-width: 38rem;
+      margin: 1rem 0 1.5rem;
+      color: var(--ink-soft);
+    }
+
+    .location-contact {
+      display: grid;
+      align-content: center;
+      gap: 0.55rem;
+      padding: clamp(2rem, 5vw, 3rem);
+      background:
+        radial-gradient(circle at 90% 0%, rgba(26, 155, 210, 0.25), transparent 18rem),
+        var(--navy-deep);
+      color: #fff;
+    }
+
+    .location-contact span {
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .location-contact a {
+      color: #fff;
+      font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .location-contact small {
+      margin-top: 1rem;
+      color: rgba(255, 255, 255, 0.56);
+      font-size: 0.72rem;
+    }
+
+    .final-cta {
+      padding-block: clamp(3.5rem, 7vw, 6rem);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(14, 155, 146, 0.28), transparent 24rem),
+        linear-gradient(135deg, var(--navy-deep), #075d83);
+      color: #fff;
+    }
+
+    .final-cta-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .final-cta h2,
+    .final-cta .eyebrow {
+      color: #fff;
+    }
+
+    .final-cta h2 {
+      max-width: 50rem;
+    }
+
+    .final-cta p {
+      max-width: 42rem;
+      margin: 1rem 0 0;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    @media (max-width: 64rem) {
+      .hero-grid,
+      .confidence-grid,
+      .doctor-section,
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        width: min(100%, 38rem);
+        margin-inline: auto;
+      }
+
+      .trust-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .trust-grid div:nth-child(2) {
+        border-right: 0;
+      }
+
+      .trust-grid div:nth-child(-n + 2) {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .programs-intro,
+      .final-cta-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .doctor-monogram {
+        min-height: 18rem;
+      }
+    }
+
+    @media (max-width: 48rem) {
+      .hero {
+        padding-top: 4rem;
+      }
+
+      .hero-visual {
+        min-height: 31rem;
+      }
+
+      .doctor-card {
+        inset: 2rem 0.7rem 3rem;
+      }
+
+      .floating-card--privacy {
+        right: 0;
+      }
+
+      .floating-card--care {
+        left: 0;
+      }
+
+      .location-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 36rem) {
+      .hero-visual {
+        min-height: 34rem;
+      }
+
+      .doctor-card-top {
+        min-height: 17rem;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .doctor-seal {
+        flex-basis: auto;
+      }
+
+      .floating-card {
+        width: 11.5rem;
+      }
+
+      .trust-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-grid div,
+      .trust-grid div:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .trust-grid div:last-child {
+        border-bottom: 0;
+      }
+    }
+  </style>
+</Base>
