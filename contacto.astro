@@ -1,13 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const intakeEndpoint =
-  import.meta.env.PUBLIC_INTAKE_ENDPOINT ??
-  "http://127.0.0.1:5678/webhook-test/medos-captura-web-intake-v2";
+const intakeEndpoint = import.meta.env.PUBLIC_INTAKE_ENDPOINT ?? "/api/intake";
 const formMode = import.meta.env.PUBLIC_FORM_MODE === "production" ? "production" : "preview";
 const isPreview = formMode === "preview";
 const whatsappHref =
-  "https://wa.me/528712557523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";
+  "https://wa.me/528712657523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";
 ---
 
 <Base
@@ -27,7 +25,7 @@ const whatsappHref =
       <aside class="contact-options">
         <span>También puedes contactarnos</span>
         <a href="tel:+528713302526"><strong>Llamadas</strong><small>871 330 2526</small></a>
-        <a href={whatsappHref} rel="noopener noreferrer"><strong>WhatsApp</strong><small>871 255 7523</small></a>
+        <a href={whatsappHref} rel="noopener noreferrer"><strong>WhatsApp</strong><small>871 265 7523</small></a>
         <p>Atención programada. Este canal no sustituye urgencias médicas.</p>
       </aside>
     </div>
@@ -358,14 +356,14 @@ const whatsappHref =
           }
 
           if (!response.ok || result?.accepted !== true) {
-            if (response.status === 404) {
+            if (response.status === 503) {
               setStatus(
-                "El webhook de prueba no está escuchando. Abre el workflow en n8n y pulsa Execute workflow.",
+                "El canal seguro está temporalmente en configuración. Puedes contactarnos por WhatsApp mientras se restablece.",
                 "error",
               );
             } else {
               setStatus(
-                "La solicitud llegó al sistema, pero fue rechazada por validación. Revisa teléfono, motivo y consentimiento.",
+                "La solicitud no pudo ser aceptada. Revisa teléfono, motivo y consentimiento antes de intentar nuevamente.",
                 "error",
               );
             }
@@ -377,7 +375,7 @@ const whatsappHref =
           showSuccess(receivedRequestId);
         } catch {
           setStatus(
-            "No se pudo comunicar con n8n. Comprueba que el servidor local siga abierto y que el workflow esté escuchando.",
+            "No se pudo completar el envío. Intenta nuevamente o utiliza el botón de WhatsApp.",
             "error",
           );
         } finally {

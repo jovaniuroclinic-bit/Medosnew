@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UROCLINIC">
+  <defs>
+    <linearGradient id="g" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#073b5c"/>
+      <stop offset="1" stop-color="#0a6ea8"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <path d="M18 16v19c0 9 5 14 14 14s14-5 14-14V16h-8v19c0 4-2 6-6 6s-6-2-6-6V16h-8Z" fill="#fff"/>
+</svg>

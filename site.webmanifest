@@ -1,0 +1,16 @@
+{
+  "name": "UROCLINIC Dr. Jovani",
+  "short_name": "UROCLINIC",
+  "description": "Urología en Torreón, Coahuila",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#073b5c",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

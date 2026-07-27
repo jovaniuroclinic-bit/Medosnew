@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">UROCLINIC Dr. Jovani</title>
+  <desc id="desc">Urología en Torreón, Coahuila</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#052f4a"/>
+      <stop offset="0.62" stop-color="#075683"/>
+      <stop offset="1" stop-color="#0a6ea8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(1030 80) rotate(125) scale(500)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#80e1d9" stop-opacity=".62"/>
+      <stop offset="1" stop-color="#80e1d9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <circle cx="1010" cy="480" r="230" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="2"/>
+  <circle cx="1010" cy="480" r="160" fill="none" stroke="#fff" stroke-opacity=".1" stroke-width="2"/>
+  <rect x="82" y="78" width="76" height="76" rx="22" fill="#fff"/>
+  <path d="M103 96v30c0 15 8 23 21 23s21-8 21-23V96h-12v30c0 8-3 11-9 11s-9-3-9-11V96h-12Z" fill="#075683"/>
+  <text x="82" y="250" fill="#fff" font-family="Arial, sans-serif" font-size="76" font-weight="800" letter-spacing="2">UROCLINIC</text>
+  <text x="82" y="326" fill="#d9eef7" font-family="Arial, sans-serif" font-size="42" font-weight="600">Dr. Jovani · Urología</text>
+  <text x="82" y="412" fill="#fff" font-family="Arial, sans-serif" font-size="34">Atención clara, privada y con seguimiento humano</text>
+  <text x="82" y="510" fill="#bde7ea" font-family="Arial, sans-serif" font-size="28">Torreón, Coahuila · 871 330 2526</text>
+</svg>

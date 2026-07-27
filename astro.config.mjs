@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   output: "static",
-  site: process.env.SITE_URL ?? "https://medos-uroclinic-web-preview.drjovaniuroclinic.workers.dev",
+  site: process.env.SITE_URL ?? "https://drjovaniurologo.org",
   trailingSlash: "never",
   compressHTML: true,
   integrations: [],
