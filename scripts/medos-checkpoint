@@ -14,7 +14,12 @@ if [[ "$do_push" -eq 1 ]]; then git push origin HEAD; fi
 if [[ "$wait_ci" -eq 1 ]]; then
   command -v gh >/dev/null || exit 6
   head_sha="$(git rev-parse HEAD)"
-  run_id="$(gh run list --commit "$head_sha" --workflow CI --limit 1 --json databaseId --jq '.[0].databaseId')"
+  run_id=""
+  for attempt in {1..10}; do
+    run_id="$(gh run list --commit "$head_sha" --workflow CI --limit 1 --json databaseId --jq '.[0].databaseId')"
+    [[ "$run_id" =~ ^[0-9]+$ ]] && break
+    sleep 3
+  done
   [[ "$run_id" =~ ^[0-9]+$ ]] || { echo "No se encontró CI para el checkpoint" >&2; exit 10; }
   gh run watch "$run_id" --exit-status || exit 10
 fi
