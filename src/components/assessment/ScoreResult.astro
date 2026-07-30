@@ -1,0 +1,37 @@
+---
+import AppointmentCTA from "./AppointmentCTA.astro";
+import RiskBadge from "./RiskBadge.astro";
+---
+<section class="score-result" data-result hidden tabindex="-1" aria-live="polite">
+  <RiskBadge />
+  <p class="result-overline">Resultado orientativo</p>
+  <h2 data-result-category>Resultado</h2>
+  <p class="result-score" data-result-score hidden></p>
+  <div class="result-meter" aria-hidden="true"><span data-result-meter></span></div>
+  <p data-result-explanation></p>
+  <div data-result-extra></div>
+  <p class="result-date">Fecha local: <time data-result-date></time></p>
+  <p class="result-limit">
+    Este resultado requiere correlación clínica. No confirma una enfermedad ni indica un tratamiento.
+  </p>
+  <AppointmentCTA />
+  <div class="result-tools">
+    <button class="button button--ghost" type="button" data-restart>Reiniciar</button>
+    <button class="button button--ghost" type="button" data-print>Imprimir / Guardar PDF</button>
+  </div>
+</section>
+
+<style>
+  .score-result { display: grid; gap: 1rem; padding: clamp(1.4rem, 4vw, 2.4rem); border: 1px solid #b9d9e6; border-radius: 1.4rem; background: linear-gradient(145deg, #fff, #eff9fb); box-shadow: var(--shadow-sm); }
+  .score-result[hidden] { display: none; }
+  .result-overline { margin: 0; color: var(--blue); font-size: 0.78rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
+  .result-score { margin: 0; color: var(--navy); font-size: 1.35rem; font-weight: 900; }
+  .result-meter { height: 0.65rem; overflow: hidden; border-radius: 99px; background: #dae8ee; }
+  .result-meter span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--teal), var(--gold)); }
+  .result-limit { padding: 0.9rem; border-radius: 0.75rem; background: #fff7e7; color: #644500; }
+  .result-tools { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  @media print {
+    .result-tools, .appointment-actions, header, footer, .mobile-actions, [data-progress] { display: none !important; }
+    .score-result { border: 0; box-shadow: none; }
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+interface Props { title: string; description: string; minutes: string; questions: number; notice?: string; }
+const { title, description, minutes, questions, notice } = Astro.props;
+---
+<header class="assessment-intro">
+  <span class="eyebrow">Centro de Autoevaluación Urológica</span>
+  <h1>{title}</h1>
+  <p class="kicker">{description}</p>
+  <ul aria-label="Características">
+    <li>{minutes}</li>
+    <li>{questions} preguntas</li>
+    <li>Cálculo local y confidencial</li>
+  </ul>
+  {notice && <p class="instrument-notice">{notice}</p>}
+</header>
+
+<style>
+  .assessment-intro { display: grid; gap: 1rem; }
+  .assessment-intro h1 { font-size: clamp(2.3rem, 6vw, 4.6rem); }
+  .assessment-intro ul { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; list-style: none; }
+  .assessment-intro li { padding: 0.45rem 0.75rem; border-radius: 99px; background: #e8f4f8; color: var(--navy); font-size: 0.82rem; font-weight: 800; }
+  .instrument-notice { padding: 0.85rem 1rem; border-left: 4px solid var(--gold); background: #fff8e9; color: #694800; font-size: 0.9rem; }
+</style>

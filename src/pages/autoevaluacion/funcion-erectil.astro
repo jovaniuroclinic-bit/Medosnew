@@ -1,0 +1,20 @@
+---
+import Base from "../../layouts/Base.astro";
+import AssessmentShell from "../../components/assessment/AssessmentShell.astro";
+const options = ["No ocurre o no aplica", "Ocasionalmente", "Con frecuencia", "Casi siempre o impacto importante"].map((label, value) => ({ label, value }));
+const questions = [
+  "En los últimos meses, ¿ha notado dificultad para conseguir una erección cuando la desea?",
+  "¿Ha tenido dificultad para mantener la erección durante la actividad sexual?",
+  "¿La firmeza ha sido menor de la necesaria para una actividad sexual satisfactoria?",
+  "¿Esta situación ha afectado su bienestar, seguridad o relación de pareja?",
+  "¿El cambio se ha mantenido durante tres meses o más?",
+  "¿Ha notado disminución de las erecciones espontáneas o matutinas?",
+  "¿Vive con diabetes o glucosa elevada conocida?",
+  "¿Vive con hipertensión o presión arterial elevada conocida?",
+  "¿Fuma actualmente o usa nicotina de forma habitual?",
+  "¿Ha presentado falta de aire o molestia torácica con esfuerzo o actividad sexual?",
+].map((text) => ({ text, options }));
+---
+<Base title="Evaluación orientativa de función eréctil | UROCLINIC" description="Evaluación educativa y privada de función eréctil y factores asociados; no corresponde a SHIM o IIEF-5.">
+  <AssessmentShell name="Evaluación orientativa de la función eréctil" description="Explora señales sexuales y factores vasculares, metabólicos y generales que conviene revisar." minutes="4–6 minutos" questions={questions} strategy="erectile" notice="Esta evaluación no corresponde al cuestionario SHIM/IIEF-5 y no sustituye una valoración médica. La reproducción oficial queda pendiente de autorización verificable." evidenceIds={["aua-ed"]} />
+</Base>

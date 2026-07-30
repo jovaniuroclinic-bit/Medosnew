@@ -1,0 +1,29 @@
+---
+import Base from "../../layouts/Base.astro";
+import AssessmentShell from "../../components/assessment/AssessmentShell.astro";
+const options = ["Sin factor señalado", "Factor leve u ocasional", "Factor presente", "Factor importante o persistente"].map((label, value) => ({ label, value }));
+const raw = [
+  ["¿Su edad o etapa de vida le hace considerar una revisión preventiva?", "Perfil general"],
+  ["¿Su medida de cintura o peso ha aumentado de forma relevante?", "Salud metabólica"],
+  ["¿Realiza menos de 150 minutos de actividad física moderada por semana?", "Actividad física"],
+  ["¿Su sueño suele ser insuficiente o poco reparador?", "Sueño"],
+  ["¿Ha notado energía baja durante el día?", "Sueño"],
+  ["¿Ha notado ánimo bajo, ansiedad o pérdida de interés persistentes?", "Sueño"],
+  ["¿Fuma o utiliza nicotina?", "Factores cardiovasculares"],
+  ["¿Su consumo de alcohol suele superar cantidades moderadas?", "Factores cardiovasculares"],
+  ["¿Tiene presión arterial elevada conocida o sin control reciente?", "Factores cardiovasculares"],
+  ["¿Tiene diabetes, prediabetes o glucosa elevada conocida?", "Salud metabólica"],
+  ["¿Tiene colesterol o triglicéridos elevados conocidos?", "Salud metabólica"],
+  ["¿Usa medicamentos que podrían influir en energía, deseo, erección u orina?", "Perfil general"],
+  ["¿Ha notado disminución persistente del deseo sexual?", "Salud sexual"],
+  ["¿Han disminuido las erecciones espontáneas o matutinas?", "Salud sexual"],
+  ["¿Presenta síntomas urinarios que afectan su calidad de vida?", "Salud urinaria"],
+  ["¿Existen antecedentes familiares relevantes de diabetes o enfermedad cardiovascular temprana?", "Factores cardiovasculares"],
+  ["¿Ronca intensamente o le han observado pausas respiratorias durante el sueño?", "Sueño"],
+  ["¿Su alimentación incluye con poca frecuencia verduras, fibra y alimentos frescos?", "Salud metabólica"],
+];
+const questions = raw.map(([text, domain]) => ({ text, domain, options }));
+---
+<Base title="Evaluación integral de salud masculina | UROCLINIC" description="Perfil orientativo de factores metabólicos, sueño, actividad, salud sexual, urinaria y cardiovascular.">
+  <AssessmentShell name="Evaluación integral de factores asociados a la salud masculina" description="Construye un perfil visual de áreas que conviene revisar desde un enfoque funcional e integral." minutes="6–8 minutos" questions={questions} strategy="functional" notice="Herramienta educativa propia. No es una escala diagnóstica validada y no ordena estudios, laboratorios ni tratamientos." evidenceIds={["eau-luts", "aua-ed", "aua-cpp"]} />
+</Base>

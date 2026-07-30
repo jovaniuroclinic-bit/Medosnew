@@ -1,11 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const intakeEndpoint = import.meta.env.PUBLIC_INTAKE_ENDPOINT ?? "/api/intake";
+const intakeEndpoint = "/api/appointment";
 const formMode = import.meta.env.PUBLIC_FORM_MODE === "preview" ? "preview" : "production";
 const isPreview = formMode === "preview";
 const whatsappHref =
-  "https://wa.me/528712657523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";
+  "https://wa.me/528712756523?text=Hola%20Dr.%20Jovani.%20Realic%C3%A9%20una%20autoevaluaci%C3%B3n%20en%20UROCLINIC%20y%20deseo%20agendar%20una%20valoraci%C3%B3n.";
 ---
 
 <Base
@@ -24,8 +24,9 @@ const whatsappHref =
       </div>
       <aside class="contact-options">
         <span>También puedes contactarnos</span>
-        <a href="tel:+528712657523"><strong>Llamadas</strong><small>871 265 7523</small></a>
-        <a href={whatsappHref} rel="noopener noreferrer"><strong>WhatsApp</strong><small>871 265 7523</small></a>
+        <a href="tel:+528712756523"><strong>Llamadas</strong><small>871 275 6523</small></a>
+        <a href={whatsappHref} rel="noopener noreferrer"><strong>WhatsApp</strong><small>871 275 6523</small></a>
+        <a href="mailto:citas.org"><strong>Correo</strong><small>citas.org</small></a>
         <p>Atención programada. Este canal no sustituye urgencias médicas.</p>
       </aside>
     </div>
@@ -146,6 +147,7 @@ const whatsappHref =
             </button>
 
             <p class="form-footnote">El envío no confirma una cita. No utilices este medio para urgencias.</p>
+            <p class="form-footnote">No incluya diagnósticos, estudios, fotografías ni información médica sensible en este formulario. Estos datos se solicitarán, cuando corresponda, mediante un canal clínico autorizado.</p>
           </div>
 
           <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
@@ -215,7 +217,7 @@ const whatsappHref =
       const buttonLabel = form.querySelector(".button-label");
       const reasonField = form.querySelector("#reason");
       const endpoint = form.dataset.endpoint ?? "";
-      const mode = form.dataset.mode === "production" ? "production" : "preview";
+      let submissionStartedAt = Date.now();
 
       const programMap = {
         "valoracion-esencial": "Información sobre Valoración Esencial",
@@ -316,21 +318,14 @@ const whatsappHref =
           return;
         }
 
-        const requestId = `web-${makeId()}`;
         const payload = {
-          requestId,
           name: String(data.get("name") ?? "").trim(),
           phone: normalizedPhone,
           email: String(data.get("email") ?? "").trim().toLowerCase(),
-          reason: String(data.get("reason") ?? "").trim(),
-          consent: {
-            accepted: data.get("consent") === "on",
-            purpose: "appointment_request",
-          },
-          createdAt: new Date().toISOString(),
-          idempotencyKey: requestId,
-          website: String(data.get("website") ?? ""),
-          synthetic: mode !== "production",
+          serviceCategory: String(data.get("reason") ?? "").trim(),
+          consent: data.get("consent") === "on",
+          honeypot: String(data.get("website") ?? ""),
+          submissionStartedAt,
         };
 
         if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
@@ -370,7 +365,7 @@ const whatsappHref =
             return;
           }
 
-          const receivedRequestId = String(result.requestId ?? requestId);
+          const receivedRequestId = String(result.requestId ?? makeId());
           form.reset();
           showSuccess(receivedRequestId);
         } catch {

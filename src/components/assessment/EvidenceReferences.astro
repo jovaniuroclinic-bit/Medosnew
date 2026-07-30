@@ -1,0 +1,33 @@
+---
+import { evidenceReferences, LAST_CLINICAL_CONTENT_REVIEW } from "../../data/evidence";
+interface Props { ids?: string[]; }
+const { ids = evidenceReferences.map(({ id }) => id) } = Astro.props;
+const selected = evidenceReferences.filter(({ id }) => ids.includes(id));
+---
+<section class="evidence" aria-labelledby="evidence-title">
+  <h2 id="evidence-title">Evidencia y limitaciones</h2>
+  <p>
+    Estas fuentes orientan el contenido educativo. No implican aval formal de las organizaciones citadas.
+  </p>
+  <details>
+    <summary>Consultar bibliografía completa</summary>
+    <ol>
+      {selected.map((reference) => (
+        <li>
+          <a href={reference.url} rel="noopener noreferrer">{reference.title}</a>
+          <span>{reference.organization}. {reference.note}</span>
+        </li>
+      ))}
+    </ol>
+  </details>
+  <small>Última revisión clínica del contenido: {LAST_CLINICAL_CONTENT_REVIEW}.</small>
+</section>
+
+<style>
+  .evidence { padding: 1.35rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface-soft); }
+  .evidence h2 { font-size: 1.25rem; }
+  .evidence p, .evidence span, .evidence small { color: var(--ink-soft); }
+  .evidence summary { min-height: 44px; padding-block: 0.65rem; cursor: pointer; color: var(--navy); font-weight: 850; }
+  .evidence li { margin-bottom: 0.8rem; }
+  .evidence li span { display: block; font-size: 0.9rem; }
+</style>

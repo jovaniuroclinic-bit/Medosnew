@@ -17,9 +17,9 @@ const isProduction = siteEnvironment === "production";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL("/social-card.png", Astro.site);
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const phoneHref = "tel:+528712657523";
+const phoneHref = "tel:+528712756523";
 const whatsappHref =
-  "https://wa.me/528712657523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";
+  "https://wa.me/528712756523?text=Hola%20Dr.%20Jovani.%20Realic%C3%A9%20una%20autoevaluaci%C3%B3n%20en%20UROCLINIC%20y%20deseo%20agendar%20una%20valoraci%C3%B3n.";
 const address =
   "Ignacio Allende Oriente 139, Primero de Cobián Centro, CP 27000, Torreón, Coahuila";
 
@@ -27,6 +27,7 @@ const navigation = [
   { href: "/", label: "Inicio" },
   { href: "/servicios", label: "Servicios" },
   { href: "/programas", label: "Programas" },
+  { href: "/autoevaluacion", label: "Autoevaluación" },
   { href: "/contacto", label: "Contacto" },
 ];
 
@@ -38,7 +39,7 @@ const structuredData = {
       "@id": `${Astro.site?.toString()}#clinic`,
       name: "UROCLINIC Dr. Jovani",
       url: Astro.site?.toString(),
-      telephone: "+52 871 265 7523",
+      telephone: "+52 871 275 6523",
       medicalSpecialty: "Urology",
       address: {
         "@type": "PostalAddress",
@@ -100,6 +101,7 @@ const structuredData = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({ "": "https://schema.org", "": "MedicalWebPage", name: title, description, url: canonicalURL, inLanguage: "es-MX" })} />
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -114,8 +116,8 @@ const structuredData = {
       <div class="container contact-strip-inner">
         <span>Atención urológica programada en Torreón, Coahuila</span>
         <div>
-          <a href={phoneHref}>Llamadas: 871 265 7523</a>
-          <a href={whatsappHref} rel="noopener noreferrer">WhatsApp: 871 265 7523</a>
+          <a href={phoneHref}>Llamadas: 871 275 6523</a>
+          <a href={whatsappHref} rel="noopener noreferrer">WhatsApp: 871 275 6523</a>
         </div>
       </div>
     </div>
@@ -178,8 +180,8 @@ const structuredData = {
         <section aria-labelledby="footer-contact">
           <h2 id="footer-contact">Contacto</h2>
           <address>
-            <a href={phoneHref}>871 265 7523</a><br />
-            <a href={whatsappHref} rel="noopener noreferrer">WhatsApp 871 265 7523</a><br />
+            <a href={phoneHref}>871 275 6523</a><br />
+            <a href={whatsappHref} rel="noopener noreferrer">WhatsApp 871 275 6523</a><br />
             {address}
           </address>
         </section>
@@ -189,6 +191,7 @@ const structuredData = {
           <ul>
             <li><a href="/servicios">Servicios</a></li>
             <li><a href="/programas">Programas y membresías</a></li>
+            <li><a href="/autoevaluacion">Centro de Autoevaluación</a></li>
             <li><a href="/contacto">Solicitar valoración</a></li>
             <li><a href="/privacidad">Aviso de privacidad</a></li>
           </ul>

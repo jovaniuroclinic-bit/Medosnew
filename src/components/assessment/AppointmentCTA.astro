@@ -1,0 +1,15 @@
+---
+import { genericWhatsAppHref } from "../../lib/assessments/whatsapp";
+interface Props { label?: string; }
+const { label = "Agendar valoración" } = Astro.props;
+---
+<div class="appointment-actions">
+  <a class="button button--primary" href="/contacto#solicitud">{label}</a>
+  <a class="button button--secondary" href="tel:+528712756523">Llamar</a>
+  <a class="button button--whatsapp" data-result-whatsapp href={genericWhatsAppHref()} rel="noopener noreferrer">WhatsApp</a>
+</div>
+
+<style>
+  .appointment-actions { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+  .button--whatsapp { background: #08795b; color: #fff; }
+</style>

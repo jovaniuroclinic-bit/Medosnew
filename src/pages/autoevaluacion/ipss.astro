@@ -1,0 +1,15 @@
+---
+import Base from "../../layouts/Base.astro";
+import AssessmentShell from "../../components/assessment/AssessmentShell.astro";
+import { IPSS_OPTIONS, IPSS_QUESTIONS } from "../../lib/assessments/ipss";
+const frequencyOptions = IPSS_OPTIONS.map((label, value) => ({ label, value }));
+const nocturiaOptions = Array.from({ length: 6 }, (_, value) => ({ label: value === 0 ? "Ninguna" : value === 5 ? "Cinco o más veces" : `${value} ${value === 1 ? "vez" : "veces"}`, value }));
+const qolOptions = ["Encantado", "Complacido", "Más bien satisfecho", "Tan satisfecho como insatisfecho", "Más bien insatisfecho", "Descontento", "Muy mal"].map((label, value) => ({ label, value }));
+const questions = [
+  ...IPSS_QUESTIONS.map((text, index) => ({ text, options: index === 6 ? nocturiaOptions : frequencyOptions })),
+  { text: "Si tuviera que vivir el resto de su vida con su forma actual de orinar, ¿cómo se sentiría?", options: qolOptions, name: "quality-of-life" },
+];
+---
+<Base title="IPSS: síntomas urinarios y próstata | UROCLINIC" description="Autoevaluación IPSS orientativa de síntomas prostáticos y urinarios con cálculo local, privacidad y referencias clínicas.">
+  <AssessmentShell name="IPSS: síntomas urinarios y próstata" description="Tamizaje orientativo de síntomas del tracto urinario inferior. La calidad de vida se reporta por separado." minutes="3–5 minutos" questions={questions} strategy="ipss" evidenceIds={["eau-luts", "aua-bph", "ipss-validation"]} />
+</Base>

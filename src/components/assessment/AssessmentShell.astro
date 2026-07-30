@@ -1,0 +1,250 @@
+---
+import AssessmentIntro from "./AssessmentIntro.astro";
+import EvidenceReferences from "./EvidenceReferences.astro";
+import MedicalDisclaimer from "./MedicalDisclaimer.astro";
+import ProgressBar from "./ProgressBar.astro";
+import QuestionCard from "./QuestionCard.astro";
+import RedFlagAlert from "./RedFlagAlert.astro";
+import ScoreResult from "./ScoreResult.astro";
+import { RED_FLAGS } from "../../lib/assessments/redFlags";
+
+interface Option { label: string; value: number; }
+interface Question { text: string; options: Option[]; name?: string; domain?: string; }
+interface Props {
+  name: string;
+  description: string;
+  minutes: string;
+  questions: Question[];
+  strategy: "ipss" | "erectile" | "incontinence" | "functional";
+  notice?: string;
+  ctaLabel?: string;
+  evidenceIds?: string[];
+}
+const { name, description, minutes, questions, strategy, notice, evidenceIds } = Astro.props;
+const config = { name, strategy, questions: questions.map(({ domain }) => ({ domain })) };
+---
+<section class="assessment-page" data-assessment-root data-config={JSON.stringify(config)}>
+  <div class="narrow assessment-stack">
+    <nav class="breadcrumbs" aria-label="Migas de pan"><ol><li><a href="/">Inicio</a></li><li><a href="/autoevaluacion">Autoevaluación</a></li><li aria-current="page">{name}</li></ol></nav>
+    <AssessmentIntro
+      title={name}
+      description={description}
+      minutes={minutes}
+      questions={questions.length}
+      notice={notice}
+    />
+    <MedicalDisclaimer />
+
+    <div class="assessment-workspace">
+      <div data-progress><ProgressBar /></div>
+      <RedFlagAlert />
+
+      <form data-assessment-form novalidate>
+        <section class="assessment-step" data-consent-step>
+          <h2>Antes de comenzar</h2>
+          <p>
+            Las respuestas se procesan únicamente en este navegador. No se guardan, no se agregan a un
+            expediente y no se envían a analítica.
+          </p>
+          <label class="consent">
+            <input type="checkbox" name="consent" required />
+            <span>
+              Acepto realizar una evaluación orientativa. Comprendo que no sustituye una consulta, no
+              constituye diagnóstico y que mis respuestas no serán guardadas por defecto.
+            </span>
+          </label>
+          <p><a href="/privacidad">Consultar aviso de privacidad</a></p>
+        </section>
+
+        <fieldset class="assessment-step red-flags" data-red-flags-step hidden>
+          <legend>Primero, descarte señales de urgencia</legend>
+          <p>Seleccione cualquier situación que esté ocurriendo ahora. Si ninguna aplica, continúe.</p>
+          <div class="red-flag-list">
+            {RED_FLAGS.map((flag) => (
+              <label>
+                <input type="checkbox" name={`red-${flag.id}`} value="yes" />
+                <span>{flag.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        {questions.map((question, index) => (
+          <QuestionCard
+            index={index}
+            question={question.text}
+            options={question.options}
+            name={question.name ?? `q${index}`}
+          />
+        ))}
+
+        <p class="form-message" data-form-message aria-live="polite"></p>
+        <div class="assessment-controls" data-controls>
+          <button class="button button--ghost" type="button" data-back disabled>Anterior</button>
+          <button class="button button--primary" type="button" data-next>Continuar</button>
+        </div>
+      </form>
+      <ScoreResult />
+    </div>
+
+    <EvidenceReferences ids={evidenceIds} />
+  </div>
+</section>
+
+<a class="floating-whatsapp" href="https://wa.me/528712756523" rel="noopener noreferrer">
+  Agendar por WhatsApp
+</a>
+
+<script is:inline>
+  const roots = document.querySelectorAll("[data-assessment-root]");
+  for (const root of roots) {
+    const config = JSON.parse(root.getAttribute("data-config") || "{}");
+    const form = root.querySelector("[data-assessment-form]");
+    const consentStep = root.querySelector("[data-consent-step]");
+    const redFlagsStep = root.querySelector("[data-red-flags-step]");
+    const questionSteps = [...root.querySelectorAll("[data-question-step]")];
+    const steps = [consentStep, redFlagsStep, ...questionSteps].filter(Boolean);
+    const nextButton = root.querySelector("[data-next]");
+    const backButton = root.querySelector("[data-back]");
+    const message = root.querySelector("[data-form-message]");
+    const alert = root.querySelector("[data-red-flag-alert]");
+    const result = root.querySelector("[data-result]");
+    let current = 0;
+
+    const setStep = (index) => {
+      current = Math.max(0, Math.min(index, steps.length - 1));
+      steps.forEach((step, stepIndex) => { step.hidden = stepIndex !== current; });
+      backButton.disabled = current === 0;
+      nextButton.textContent = current === steps.length - 1 ? "Ver resultado" : "Continuar";
+      const percent = Math.round((current / (steps.length - 1)) * 100);
+      const progressBar = root.querySelector("[data-progress-bar]");
+      const progressTrack = progressBar?.parentElement;
+      if (progressBar) progressBar.style.width = `${percent}%`;
+      if (progressTrack) progressTrack.setAttribute("aria-valuenow", String(percent));
+      root.querySelector("[data-progress-value]").textContent = `${percent}%`;
+      root.querySelector("[data-progress-label]").textContent =
+        current < 2 ? "Preparación" : `Pregunta ${current - 1} de ${questionSteps.length}`;
+      message.textContent = "";
+      steps[current]?.querySelector("input")?.focus();
+    };
+
+    const currentValid = () => {
+      if (current === 0) return Boolean(form.elements.consent.checked);
+      if (current === 1) return true;
+      return Boolean(steps[current].querySelector("input:checked"));
+    };
+
+    const calculate = (values) => {
+      if (config.strategy === "ipss") {
+        const score = values.slice(0, 7).reduce((sum, value) => sum + value, 0);
+        const category = score === 0 ? "Sin síntomas relevantes" : score <= 7 ? "Síntomas leves" : score <= 19 ? "Síntomas moderados" : "Síntomas severos";
+        const explanation = score <= 7
+          ? "Puede ser razonable mantener vigilancia y medidas generales, siempre considerando edad, calidad de vida y antecedentes."
+          : score <= 19
+            ? "Conviene realizar valoración urológica para identificar causas y opciones de manejo."
+            : "Se recomienda valoración urológica prioritaria.";
+        return { score, max: 35, category, explanation, extra: `Calidad de vida reportada: ${values[7]} de 6 (no incluida en el puntaje).` };
+      }
+      if (config.strategy === "erectile") {
+        const score = values.reduce((sum, value) => sum + value, 0);
+        const category = score <= 4 ? "Sin señales relevantes" : score <= 10 ? "Señales leves" : score <= 19 ? "Señales moderadas" : "Señales importantes";
+        return { score: null, max: 30, meter: score, category, explanation: "Los síntomas sexuales pueden relacionarse con salud vascular, metabólica, hormonal, emocional o medicamentos. Conviene correlación clínica." };
+      }
+      if (config.strategy === "incontinence") {
+        const score = values.reduce((sum, value) => sum + value, 0);
+        const effort = values[3];
+        const urgency = values[2];
+        const pattern = effort >= 2 && urgency >= 2 ? "mixto" : effort >= 2 ? "de esfuerzo" : urgency >= 2 ? "de urgencia" : "indeterminado";
+        const category = score <= 6 ? "Impacto bajo" : score <= 14 ? "Impacto moderado" : "Impacto alto";
+        return { score: null, max: 21, meter: score, category, explanation: "El resultado orienta sobre el impacto referido y requiere valoración para identificar causas.", extra: `Patrón predominante orientativo: ${pattern}.` };
+      }
+      const domainTotals = {};
+      const domainCounts = {};
+      values.forEach((value, index) => {
+        const domain = config.questions[index]?.domain || "Perfil general";
+        domainTotals[domain] = (domainTotals[domain] || 0) + value;
+        domainCounts[domain] = (domainCounts[domain] || 0) + 1;
+      });
+      const domains = Object.entries(domainTotals).map(([domain, total]) => {
+        const percent = Math.round((total / (domainCounts[domain] * 3)) * 100);
+        return `<div class="domain-row"><span>${domain}</span><progress max="100" value="${percent}">${percent}%</progress></div>`;
+      }).join("");
+      const average = values.reduce((sum, value) => sum + value, 0) / (values.length * 3);
+      const category = average < 0.25 ? "Perfil con pocos factores señalados" : average < 0.55 ? "Perfil con aspectos por revisar" : "Perfil con varios factores por revisar";
+      return { score: null, max: 100, meter: average * 100, category, explanation: "Este perfil no es una escala diagnóstica. Muestra áreas que conviene revisar con contexto clínico.", extra: domains };
+    };
+
+    nextButton.addEventListener("click", () => {
+      if (!currentValid()) {
+        message.textContent = current === 0 ? "Debe aceptar el consentimiento para continuar." : "Seleccione una respuesta para continuar.";
+        steps[current]?.querySelector("input")?.focus();
+        return;
+      }
+      if (current === 1 && redFlagsStep.querySelector("input:checked")) {
+        form.hidden = true;
+        root.querySelector("[data-progress]").hidden = true;
+        alert.hidden = false;
+        alert.focus();
+        return;
+      }
+      if (current < steps.length - 1) {
+        if (current === 0) window.dispatchEvent(new CustomEvent("assessment_started"));
+        setStep(current + 1);
+        return;
+      }
+      const values = questionSteps.map((step) => Number(step.querySelector("input:checked").value));
+      const output = calculate(values);
+      form.hidden = true;
+      result.hidden = false;
+      result.querySelector("[data-result-category]").textContent = output.category;
+      const scoreNode = result.querySelector("[data-result-score]");
+      if (output.score !== null) {
+        scoreNode.hidden = false;
+        scoreNode.textContent = `Puntaje sintomático: ${output.score} de ${output.max}`;
+      }
+      result.querySelector("[data-result-explanation]").textContent = output.explanation;
+      result.querySelector("[data-result-extra]").innerHTML = output.extra || "";
+      result.querySelector("[data-result-meter]").style.width = `${Math.min(100, ((output.meter ?? output.score ?? 0) / output.max) * 100)}%`;
+      result.querySelector("[data-result-date]").textContent = new Intl.DateTimeFormat("es-MX", { dateStyle: "long" }).format(new Date());
+      const safeMessage = `Hola Dr. Jovani. Realicé la evaluación de ${config.name} en UROCLINIC. Mi categoría orientativa fue ${output.category}. Deseo agendar una valoración.`;
+      result.querySelector("[data-result-whatsapp]").href = `https://wa.me/528712756523?text=${encodeURIComponent(safeMessage)}`;
+      result.focus();
+      window.dispatchEvent(new CustomEvent("assessment_completed"));
+    });
+    backButton.addEventListener("click", () => setStep(current - 1));
+    root.querySelector("[data-print]").addEventListener("click", () => window.print());
+    root.querySelector("[data-restart]").addEventListener("click", () => {
+      if (!window.confirm("¿Desea borrar las respuestas de esta sesión y reiniciar?")) return;
+      form.reset();
+      result.hidden = true;
+      alert.hidden = true;
+      form.hidden = false;
+      root.querySelector("[data-progress]").hidden = false;
+      setStep(0);
+    });
+    setStep(0);
+  }
+</script>
+
+<style>
+  .assessment-page { padding-block: clamp(3rem, 7vw, 6rem); background: radial-gradient(circle at 90% 5%, rgba(26,155,210,.09), transparent 28rem), var(--surface-soft); }
+  .assessment-stack { display: grid; gap: 1.5rem; }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; color: var(--ink-soft); font-size: .86rem; }
+  .breadcrumbs li + li::before { margin-right: .4rem; content: "/"; }
+  .assessment-workspace { display: grid; gap: 1.25rem; padding: clamp(1.2rem, 4vw, 2.25rem); border: 1px solid var(--line); border-radius: 1.5rem; background: #fff; box-shadow: var(--shadow); }
+  [data-assessment-form] { display: grid; gap: 1rem; }
+  .assessment-step[hidden] { display: none; }
+  .assessment-step h2, .red-flags legend { margin-bottom: 0.8rem; color: var(--navy-deep); font-size: clamp(1.3rem, 3vw, 1.7rem); font-weight: 850; }
+  .consent { display: grid; min-height: 52px; grid-template-columns: auto 1fr; gap: .8rem; align-items: start; padding: 1rem; border: 1px solid var(--line-strong); border-radius: .9rem; }
+  .consent input, .red-flag-list input { width: 1.25rem; height: 1.25rem; margin-top: .15rem; accent-color: var(--blue); }
+  .red-flags { margin: 0; padding: 0; border: 0; }
+  .red-flag-list { display: grid; gap: .55rem; }
+  .red-flag-list label { display: grid; min-height: 48px; grid-template-columns: auto 1fr; gap: .75rem; align-items: start; padding: .7rem .8rem; border-radius: .75rem; background: #fff7f7; }
+  .assessment-controls { display: flex; justify-content: space-between; gap: .7rem; padding-top: .5rem; }
+  .form-message { min-height: 1.5rem; margin: 0; color: var(--danger); font-weight: 800; }
+  .floating-whatsapp { position: fixed; z-index: 40; right: 1rem; bottom: 5rem; padding: .75rem 1rem; border-radius: 99px; background: #08795b; color: #fff; box-shadow: var(--shadow); font-size: .86rem; font-weight: 900; text-decoration: none; }
+  :global(.domain-row) { display: grid; grid-template-columns: minmax(8rem, 1fr) 2fr; gap: .75rem; align-items: center; margin-block: .6rem; }
+  :global(.domain-row progress) { width: 100%; accent-color: var(--teal); }
+  @media (min-width: 769px) { .floating-whatsapp { bottom: 1rem; } }
+  @media print { .assessment-intro, .medical-disclaimer, .evidence, .floating-whatsapp, [data-progress] { display: none !important; } .assessment-page { padding: 0; background: #fff; } .assessment-workspace { border: 0; box-shadow: none; } }
+</style>

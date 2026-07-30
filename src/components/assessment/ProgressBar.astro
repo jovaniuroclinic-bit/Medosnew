@@ -1,0 +1,13 @@
+<div class="progress" aria-label="Progreso de la evaluación">
+  <div class="progress-copy"><span data-progress-label>Preparación</span><span data-progress-value>0%</span></div>
+  <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <span data-progress-bar></span>
+  </div>
+</div>
+
+<style>
+  .progress { display: grid; gap: 0.45rem; }
+  .progress-copy { display: flex; justify-content: space-between; color: var(--ink-soft); font-size: 0.82rem; font-weight: 800; }
+  .progress-track { height: 0.55rem; overflow: hidden; border-radius: 99px; background: #dceaf0; }
+  .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--teal), var(--blue)); transition: width 180ms ease; }
+</style>

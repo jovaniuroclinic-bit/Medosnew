@@ -1,0 +1,20 @@
+<section class="red-flag-alert" data-red-flag-alert hidden aria-live="assertive" tabindex="-1">
+  <span aria-hidden="true">!</span>
+  <div>
+    <h2>Busque atención de urgencia ahora</h2>
+    <p>
+      La señal indicada requiere evaluación presencial inmediata. Suspenda esta autoevaluación y llame al
+      911 o acuda al servicio de urgencias más cercano. No espere una respuesta por WhatsApp.
+    </p>
+    <a class="button button--danger" href="tel:911">Llamar al 911</a>
+    <a class="button button--ghost" href="tel:+528712756523">Llamar a UROCLINIC</a>
+  </div>
+</section>
+
+<style>
+  .red-flag-alert { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: clamp(1.25rem, 4vw, 2rem); border: 2px solid #bd2727; border-radius: 1.25rem; background: #fff2f2; }
+  .red-flag-alert[hidden] { display: none; }
+  .red-flag-alert > span { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: 50%; background: #bd2727; color: #fff; font-weight: 950; }
+  .red-flag-alert h2 { margin-bottom: 0.7rem; color: #851c1c; font-size: 1.55rem; }
+  .button--danger { background: #a92121; color: #fff; }
+</style>

@@ -1,0 +1,93 @@
+---
+import Base from "../../layouts/Base.astro";
+import MedicalDisclaimer from "../../components/assessment/MedicalDisclaimer.astro";
+const assessments = [
+  { href: "/autoevaluacion/ipss", title: "Síntomas urinarios y próstata", purpose: "Explora la frecuencia e impacto de síntomas urinarios mediante IPSS.", time: "3–5 min", questions: "8 preguntas" },
+  { href: "/autoevaluacion/funcion-erectil", title: "Función eréctil", purpose: "Revisa señales y factores asociados a la salud sexual masculina.", time: "4–6 min", questions: "10 preguntas" },
+  { href: "/autoevaluacion/incontinencia", title: "Incontinencia urinaria", purpose: "Explora pérdidas urinarias, patrón orientativo e impacto cotidiano.", time: "3–5 min", questions: "7 preguntas" },
+  { href: "/autoevaluacion/salud-funcional", title: "Salud funcional masculina", purpose: "Construye un perfil de hábitos y factores metabólicos, sexuales y urinarios.", time: "6–8 min", questions: "18 preguntas" },
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  name: "Centro de Autoevaluación Urológica UROCLINIC",
+  url: "https://drjovaniurologo.org/autoevaluacion",
+  inLanguage: "es-MX",
+  about: ["Evaluación urológica", "Síntomas prostáticos", "Salud masculina"],
+};
+---
+<Base
+  title="Autoevaluación urológica | UROCLINIC Dr. Jovani"
+  description="Evaluaciones urológicas orientativas, privadas y basadas en evidencia para síntomas prostáticos, función eréctil, incontinencia y salud masculina."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <section class="assessment-hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Centro de Autoevaluación Urológica</span>
+        <h1>Conozca mejor su salud urológica</h1>
+        <p class="kicker">
+          Evaluaciones breves, confidenciales y orientativas basadas en instrumentos clínicos reconocidos
+          y contenido educativo basado en evidencia.
+        </p>
+      </div>
+      <MedicalDisclaimer />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="assessment-grid">
+        {assessments.map((assessment, index) => (
+          <article class="assessment-card">
+            <span class="card-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <h2>{assessment.title}</h2>
+            <p>{assessment.purpose}</p>
+            <ul>
+              <li>{assessment.time}</li><li>{assessment.questions}</li><li>Sin almacenamiento automático</li>
+            </ul>
+            <a class="button button--primary" href={assessment.href}>Iniciar evaluación</a>
+            <small>No sustituye consulta médica.</small>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-heading"><span class="eyebrow">Proceso claro</span><h2>¿Qué ocurre después?</h2></div>
+      <ol class="steps">
+        <li><strong>Responde.</strong><span>Una pregunta a la vez.</span></li>
+        <li><strong>Recibe un resultado orientativo.</strong><span>Calculado solo en tu navegador.</span></li>
+        <li><strong>Revisa recomendaciones.</strong><span>Sin diagnóstico automático.</span></li>
+        <li><strong>Agenda una valoración.</strong><span>Con información general, no respuestas clínicas.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section trust">
+    <div class="container">
+      <div class="section-heading section-heading--center"><span class="eyebrow">Confianza desde el diseño</span><h2>Privacidad, claridad y evidencia</h2></div>
+      <ul class="trust-grid">
+        <li>Atención basada en evidencia</li><li>Privacidad desde el diseño</li><li>Sin almacenamiento automático</li><li>Resultados inmediatos</li><li>Valoración médica personalizada</li>
+      </ul>
+    </div>
+  </section>
+  <style>
+    .assessment-hero { padding-block: clamp(4rem, 9vw, 7rem); background: radial-gradient(circle at 85% 20%, rgba(14,155,146,.13), transparent 28rem), var(--surface-soft); }
+    .hero-grid { display: grid; gap: 2rem; align-items: end; }
+    .hero-grid h1 { max-width: 15ch; font-size: clamp(2.8rem, 7vw, 5.4rem); }
+    .assessment-grid { display: grid; gap: 1rem; }
+    .assessment-card { display: grid; gap: 1rem; padding: clamp(1.4rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: 1.3rem; background: #fff; box-shadow: var(--shadow-sm); }
+    .assessment-card h2 { font-size: 1.55rem; }
+    .assessment-card p, .assessment-card small { color: var(--ink-soft); }
+    .assessment-card ul { padding-left: 1.2rem; color: var(--ink-soft); font-size: .9rem; }
+    .card-number { color: var(--blue); font-weight: 950; }
+    .steps, .trust-grid { display: grid; gap: 1rem; padding: 0; list-style: none; }
+    .steps li, .trust-grid li { padding: 1.2rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; }
+    .steps span { display: block; color: var(--ink-soft); }
+    .trust-grid li { text-align: center; color: var(--navy); font-weight: 850; }
+    @media (min-width: 760px) { .hero-grid { grid-template-columns: 1.5fr 1fr; } .assessment-grid, .steps { grid-template-columns: repeat(2, 1fr); } .trust-grid { grid-template-columns: repeat(5, 1fr); } }
+  </style>
+</Base>

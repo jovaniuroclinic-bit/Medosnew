@@ -1,0 +1,12 @@
+---
+interface Props { level?: "routine" | "recommended" | "priority" | "urgent"; label?: string; }
+const { level = "routine", label = "Orientativo" } = Astro.props;
+---
+<span class:list={["risk-badge", `risk-badge--${level}`]}>{label}</span>
+
+<style>
+  .risk-badge { display: inline-flex; width: fit-content; padding: 0.35rem 0.7rem; border-radius: 99px; background: #e5f5f1; color: #08664f; font-size: 0.78rem; font-weight: 900; }
+  .risk-badge--recommended { background: #fff3d4; color: #7b4a00; }
+  .risk-badge--priority { background: #ffead6; color: #8c3f00; }
+  .risk-badge--urgent { background: #ffe2e2; color: #8c1d1d; }
+</style>

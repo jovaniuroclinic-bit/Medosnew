@@ -1,0 +1,17 @@
+---
+import Base from "../../layouts/Base.astro";
+import AssessmentShell from "../../components/assessment/AssessmentShell.astro";
+const options = ["Nunca o nada", "Ocasional o poco", "Frecuente o moderado", "Muy frecuente o importante"].map((label, value) => ({ label, value }));
+const questions = [
+  "¿Con qué frecuencia presenta escapes involuntarios de orina?",
+  "Cuando ocurre un escape, ¿qué cantidad aproximada percibe?",
+  "¿Los escapes aparecen junto con una urgencia repentina difícil de controlar?",
+  "¿Los escapes aparecen al toser, reír, cargar peso o hacer ejercicio?",
+  "¿Presenta escapes mientras duerme o al levantarse por la noche?",
+  "¿Necesita protectores, cambios de ropa o planear actividades por los escapes?",
+  "¿Cuánto interfieren las pérdidas en su vida diaria, social, laboral o íntima?",
+].map((text) => ({ text, options }));
+---
+<Base title="Evaluación de pérdidas urinarias | UROCLINIC" description="Evaluación orientativa y privada del impacto y patrón de pérdidas urinarias, sin reproducir ICIQ-UI SF.">
+  <AssessmentShell name="Evaluación orientativa de pérdidas urinarias" description="Explora frecuencia, contexto e impacto de los escapes para facilitar una conversación clínica." minutes="3–5 minutos" questions={questions} strategy="incontinence" notice="No corresponde al ICIQ-UI SF. Ese instrumento requiere autorización de reproducción del ICIQ Project." evidenceIds={["iciq"]} />
+</Base>
