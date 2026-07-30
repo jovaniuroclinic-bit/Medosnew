@@ -14,23 +14,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Enable Corepack
-        run: corepack enable
-
+          cache: pnpm
+      - name: Activate repository pnpm
+        run: corepack enable && corepack prepare pnpm@11.18.0 --activate
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
+      - name: Lint
+        run: pnpm lint
+      - name: Astro check
+        run: pnpm check
+      - name: Typecheck
+        run: pnpm typecheck
       - name: Test
         run: pnpm test
-
-      - name: Validate application
-        run: pnpm check
-
+      - name: Build
+        run: pnpm build
+      - name: Verify artifact
+        run: pnpm verify
       - name: Validate Cloudflare bundle
-        run: pnpm deploy:dry-run
+        run: pnpm exec wrangler deploy --dry-run --config wrangler.jsonc
