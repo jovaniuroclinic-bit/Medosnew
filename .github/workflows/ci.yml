@@ -8,16 +8,21 @@ on:
 permissions:
   contents: read
 
+env:
+  PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY_TEST }}
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
+      - name: Require Turnstile test site key
+        run: test -n "$PUBLIC_TURNSTILE_SITE_KEY" || { echo "::error::Configure repository variable PUBLIC_TURNSTILE_SITE_KEY_TEST"; exit 1; }
       - name: Activate repository pnpm
         run: corepack enable && corepack prepare pnpm@11.18.0 --activate
       - name: Install dependencies
@@ -30,6 +35,17 @@ jobs:
         run: pnpm typecheck
       - name: Test
         run: pnpm test
+      - name: Audit high-severity dependencies
+        run: pnpm audit --audit-level high
+      - name: Check whitespace errors
+        run: git diff --check
+      - name: Scan tracked files for common secret formats
+        shell: bash
+        run: |
+          if git grep -IEn '(gh[pousr]_[A-Za-z0-9]{20,}|cfat_[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]+PRIVATE KEY-----)'; then
+            echo "::error::Potential secret pattern found in tracked files"
+            exit 1
+          fi
       - name: Build
         run: pnpm build
       - name: Verify artifact
