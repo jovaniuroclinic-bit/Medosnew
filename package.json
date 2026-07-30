@@ -12,7 +12,7 @@
     "typecheck": "astro check && tsc -p sentinel-offline/tsconfig.json --noEmit",
     "lint": "biome lint src public sentinel-offline/src sentinel-offline/config sentinel-offline/package.json sentinel-offline/tsconfig.json package.json astro.config.mjs tsconfig.json wrangler.jsonc verify-build.mjs",
     "format": "biome format --write src public package.json astro.config.mjs tsconfig.json wrangler.jsonc verify-build.mjs",
-    "test": "tsc -p sentinel-offline/tsconfig.json && node --test",
+    "test": "tsc -p sentinel-offline/tsconfig.json && tsc -p sentinel-offline/launcher/tsconfig.json && node --test",
     "verify": "node verify-build.mjs",
     "verify:build": "pnpm verify",
     "check": "astro check",
