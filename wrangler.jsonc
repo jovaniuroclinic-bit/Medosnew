@@ -1,10 +1,8 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "medos-uroclinic-web-preview",
-  "routes": [
-    { "pattern": "drjovaniurologo.org", "custom_domain": true },
-    { "pattern": "www.drjovaniurologo.org", "custom_domain": true }
-  ],
+  "workers_dev": true,
+  "preview_urls": true,
   "main": "./src/worker/index.ts",
   "compatibility_date": "2026-07-30",
   "keep_vars": true,
