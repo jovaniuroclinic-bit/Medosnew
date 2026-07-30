@@ -1,0 +1,9 @@
+{
+  "storeFullConversations": false,
+  "storePersonalData": false,
+  "storeClinicalData": false,
+  "telemetry": false,
+  "networkByDefault": false,
+  "redactPaths": true,
+  "auditFields": ["eventId", "timestamp", "action", "classification", "status", "durationMs"]
+}

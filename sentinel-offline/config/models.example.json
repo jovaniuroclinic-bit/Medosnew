@@ -1,0 +1,19 @@
+{
+  "primary": {
+    "name": "Qwen3-4B-Q4_K_M.gguf",
+    "repository": "Qwen/Qwen3-4B-GGUF",
+    "revision": "bc640142c66e1fdd12af0bd68f40445458f3869b",
+    "url": "https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/bc640142c66e1fdd12af0bd68f40445458f3869b/Qwen3-4B-Q4_K_M.gguf",
+    "sizeBytes": 2497280256,
+    "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+    "license": "Apache-2.0",
+    "publishedUtc": "2025-05-05T09:13:18Z"
+  },
+  "llamaCpp": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b9637",
+    "commit": "aedb2a5e9ca3d4064148bbb919e0ddc0c1b70ab3",
+    "verifiedUtc": "2026-07-30T05:54:00Z",
+    "cmakeOptions": ["-DGGML_LLAMAFILE=OFF", "-DGGML_OPENMP=OFF", "-DLLAMA_CURL=OFF", "-DBUILD_SHARED_LIBS=OFF", "-DCMAKE_BUILD_TYPE=Release"]
+  }
+}

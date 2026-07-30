@@ -1,0 +1,16 @@
+{
+  "name": "@medos/sentinel-offline",
+  "version": "0.1.0",
+  "description": "Agente local, defensivo y forense para Termux en Android",
+  "type": "module",
+  "private": true,
+  "license": "Apache-2.0",
+  "bin": {"medos": "./build/cli.js"},
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test",
+    "verify": "node build/cli.js verificar-instalacion"
+  },
+  "engines": {"node": ">=22.0.0 <23"}
+}

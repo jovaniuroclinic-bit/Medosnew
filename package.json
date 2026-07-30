@@ -9,15 +9,17 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "typecheck": "astro check",
-    "lint": "biome lint src public package.json astro.config.mjs tsconfig.json wrangler.jsonc verify-build.mjs",
+    "typecheck": "astro check && tsc -p sentinel-offline/tsconfig.json --noEmit",
+    "lint": "biome lint src public sentinel-offline/src sentinel-offline/config sentinel-offline/package.json sentinel-offline/tsconfig.json package.json astro.config.mjs tsconfig.json wrangler.jsonc verify-build.mjs",
     "format": "biome format --write src public package.json astro.config.mjs tsconfig.json wrangler.jsonc verify-build.mjs",
-    "test": "node --test",
+    "test": "tsc -p sentinel-offline/tsconfig.json && node --test",
     "verify": "node verify-build.mjs",
     "verify:build": "pnpm verify",
     "check": "astro check",
     "deploy:dry-run": "wrangler deploy --dry-run",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "sentinel:build": "tsc -p sentinel-offline/tsconfig.json",
+    "sentinel:verify": "node sentinel-offline/build/cli.js verificar-instalacion"
   },
   "dependencies": {
     "astro": "^7.1.6"
@@ -26,6 +28,7 @@
     "@astrojs/check": "^0.9.9",
     "@biomejs/biome": "^2.5.4",
     "@cloudflare/workers-types": "5.20260729.1",
+    "@types/node": "22.20.1",
     "typescript": "^5.9.3",
     "wrangler": "4.115.0"
   },

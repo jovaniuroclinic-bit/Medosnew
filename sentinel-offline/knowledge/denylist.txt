@@ -1,0 +1,15 @@
+.git/
+node_modules/
+dist/
+.astro/
+.wrangler/
+.env
+.dev.vars
+backups/
+evidence/
+cases/
+logs/
+cookies
+tokens
+private
+secret

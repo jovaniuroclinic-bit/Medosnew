@@ -10,3 +10,20 @@ logs
 .env
 .env.*
 !.env.example
+
+# MEDOS Sentinel runtime data never belongs in Git.
+sentinel-offline/node_modules/
+sentinel-offline/build/
+sentinel-offline/*.db
+sentinel-offline/*.db-*
+sentinel-offline/models/
+sentinel-offline/cases/
+sentinel-offline/evidence/
+sentinel-offline/backups/
+sentinel-offline/logs/
+sentinel-offline/config/sentinel.json
+sentinel-offline/config/models.json
+sentinel-offline/config/privacy.json
+sentinel-offline/config/retention.json
+*.gguf
+*.gpg

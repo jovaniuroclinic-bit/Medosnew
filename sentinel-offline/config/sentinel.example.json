@@ -1,0 +1,13 @@
+{
+  "$schema": "./sentinel.schema.json",
+  "mode": "tdah",
+  "networkDisabled": true,
+  "assistedReadOnly": false,
+  "localhost": "127.0.0.1",
+  "contextTokens": 4096,
+  "maxOutputTokens": 512,
+  "timeoutMs": 120000,
+  "threads": 6,
+  "minimumFreeBytes": 6442450944,
+  "thermalPauseCelsius": 43
+}
