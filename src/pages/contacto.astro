@@ -2,7 +2,7 @@
 import Base from "../layouts/Base.astro";
 
 const intakeEndpoint = import.meta.env.PUBLIC_INTAKE_ENDPOINT ?? "/api/intake";
-const formMode = import.meta.env.PUBLIC_FORM_MODE === "production" ? "production" : "preview";
+const formMode = import.meta.env.PUBLIC_FORM_MODE === "preview" ? "preview" : "production";
 const isPreview = formMode === "preview";
 const whatsappHref =
   "https://wa.me/528712657523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";

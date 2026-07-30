@@ -12,7 +12,7 @@ const {
     "Atención urológica en Torreón con privacidad, orientación clara y revisión humana de cada solicitud.",
 } = Astro.props;
 
-const siteEnvironment = import.meta.env.PUBLIC_SITE_ENV ?? "preview";
+const siteEnvironment = import.meta.env.PUBLIC_SITE_ENV ?? "production";
 const isProduction = siteEnvironment === "production";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL("/social-card.png", Astro.site);
@@ -124,7 +124,7 @@ const structuredData = {
       <div class="container header-inner">
         <a class="brand" href="/" aria-label="UROCLINIC Dr. Jovani, inicio">
           <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 48 48" role="img">
+            <svg viewBox="0 0 48 48">
               <path d="M11 8h8v19c0 6 2 9 5 9s5-3 5-9V8h8v20c0 11-5 17-13 17S11 39 11 28V8Z" fill="currentColor" />
             </svg>
           </span>

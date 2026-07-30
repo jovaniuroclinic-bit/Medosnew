@@ -4,14 +4,20 @@
   "description": "MEDOS public web presence - UROCLINIC DR. JOVANI",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@11.18.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "lint": "biome check .",
-    "format": "biome format --write .",
-    "test": "echo 'No tests configured'"
+    "lint": "biome lint src public package.json astro.config.mjs tsconfig.json wrangler.jsonc verify-build.mjs",
+    "format": "biome format --write src public package.json astro.config.mjs tsconfig.json wrangler.jsonc verify-build.mjs",
+    "test": "node --test",
+    "verify": "node verify-build.mjs",
+    "verify:build": "pnpm verify",
+    "check": "astro check",
+    "deploy:dry-run": "wrangler deploy --dry-run",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "astro": "^5.0.3"
@@ -19,10 +25,12 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@biomejs/biome": "^2.5.4",
-    "typescript": "^6.0.3"
+    "@cloudflare/workers-types": "5.20260729.1",
+    "typescript": "^5.9.3",
+    "wrangler": "4.115.0"
   },
   "engines": {
-    "node": ">=24.0.0 <25",
-    "pnpm": ">=11.13.1 <12"
+    "node": ">=22.0.0 <23",
+    "pnpm": ">=11.18.0 <12"
   }
 }
