@@ -32,12 +32,18 @@ medos
 ```
 
 La red solo se habilita explícitamente para clonar fuentes y descargar el
-modelo. Después funciona en modo avión. No expone servidor; si se añade una UI
-futura deberá enlazar exclusivamente `127.0.0.1`.
+modelo. Después funciona en modo avión. La UI del Checkpoint A se sirve
+exclusivamente en `127.0.0.1` y no debe exponerse mediante túneles o proxies:
+
+```bash
+corepack pnpm sentinel:ui
+```
+
+Abra `http://127.0.0.1:4317` en el mismo dispositivo.
 
 ## Comandos
 
-`medos`, `medos estado`, `medos consultar TEXTO`, `medos continuar`,
+`medos`, `medos ui`, `medos estado`, `medos consultar TEXTO`, `medos continuar`,
 `medos caso-nuevo TITULO`, `medos emergencia` y `medos verificar-instalacion`.
 Los flujos de backup/restauración se ejecutan con confirmación desde el menú o
 los scripts dedicados.
