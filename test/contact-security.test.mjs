@@ -9,7 +9,7 @@ const request = (payload, options = {}) => new Request("https://drjovaniurologo.
   headers: { "content-type": "application/json", origin: "https://drjovaniurologo.org", "user-agent": "MEDOS-security-test", ...options.headers },
   body: options.method && options.method !== "POST" ? undefined : (options.raw ?? JSON.stringify(payload)),
 });
-const workingEnv = (send = async () => {}) => ({ TURNSTILE_SECRET_KEY: "turnstile-test", FORM_HMAC_SECRET: "hmac-test-only", MAIL_FROM: "notificaciones@drjovaniurologo.org", MAIL_TO_CITAS: "uroclinic.drjovani@proton.me", MAIL_REPLY_TO: "citas@drjovaniurologo.org", EMAIL: { send } });
+const workingEnv = (send = async () => {}) => ({ TURNSTILE_SECRET_KEY: "turnstile-test", FORM_HMAC_SECRET: "hmac-test-only", MAIL_FROM: "notificaciones@drjovaniurologo.org", MAIL_TO_CITAS: "clinic-destination@example.test", MAIL_REPLY_TO: "citas@drjovaniurologo.org", EMAIL: { send } });
 const allowTurnstile = () => {
   globalThis.fetch = async () => Response.json({ success: true, hostname: "drjovaniurologo.org" });
 };
