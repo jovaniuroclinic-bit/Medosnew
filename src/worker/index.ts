@@ -2,103 +2,50 @@ import { handleForm, type FormEnv } from "./forms.ts";
 
 interface Env extends FormEnv {
   ASSETS: Fetcher;
-  INTAKE_ENDPOINT?: string;
 }
 
+const SECURITY_HEADERS: Record<string, string> = {
+  "strict-transport-security": "max-age=31536000; includeSubDomains",
+  "x-content-type-options": "nosniff",
+  "referrer-policy": "strict-origin-when-cross-origin",
+  "permissions-policy": "camera=(), microphone=(), geolocation=()",
+  "content-security-policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; upgrade-insecure-requests",
+};
+
+const secure = (source: Response) => {
+  const result = new Response(source.body, source);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) result.headers.set(name, value);
+  result.headers.delete("server");
+  result.headers.delete("x-powered-by");
+  return result;
+};
+
 const json = (body: unknown, status = 200, headers: HeadersInit = {}) =>
-  new Response(JSON.stringify(body), {
+  secure(new Response(JSON.stringify(body), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
       ...headers,
     },
-  });
-
-const handleIntake = async (request: Request, env: Env): Promise<Response> => {
-  if (request.method !== "POST") {
-    return json({ accepted: false, error: "method_not_allowed" }, 405, { allow: "POST" });
-  }
-
-  const origin = request.headers.get("origin");
-  if (origin && new URL(origin).host !== new URL(request.url).host) {
-    return json({ accepted: false, error: "origin_not_allowed" }, 403);
-  }
-
-  const contentType = request.headers.get("content-type") ?? "";
-  if (!contentType.toLowerCase().includes("application/json")) {
-    return json({ accepted: false, error: "unsupported_media_type" }, 415);
-  }
-
-  const contentLength = Number(request.headers.get("content-length") ?? "0");
-  if (contentLength > 32_768) {
-    return json({ accepted: false, error: "payload_too_large" }, 413);
-  }
-
-  let payload: Record<string, unknown>;
-  try {
-    payload = (await request.json()) as Record<string, unknown>;
-  } catch {
-    return json({ accepted: false, error: "invalid_json" }, 400);
-  }
-
-  const name = String(payload.name ?? "").trim();
-  const phone = String(payload.phone ?? "").replace(/\D/g, "");
-  const reason = String(payload.reason ?? "").trim();
-  const website = String(payload.website ?? "").trim();
-  const consent = payload.consent as { accepted?: boolean } | undefined;
-  const requestId = String(payload.requestId ?? "").trim();
-
-  if (website) return json({ accepted: true, requestId: requestId || "filtered" }, 202);
-  if (name.length < 3 || name.length > 120 || phone.length < 10 || phone.length > 15 || !reason) {
-    return json({ accepted: false, error: "validation_failed" }, 422);
-  }
-  if (consent?.accepted !== true) {
-    return json({ accepted: false, error: "consent_required" }, 422);
-  }
-  if (!env.INTAKE_ENDPOINT) {
-    console.warn(JSON.stringify({ event: "intake_not_configured", requestId }));
-    return json({ accepted: false, error: "intake_not_configured" }, 503);
-  }
-
-  const upstream = await fetch(env.INTAKE_ENDPOINT, {
-    method: "POST",
-    headers: {
-      accept: "application/json",
-      "content-type": "application/json",
-      "x-medos-request-id": requestId,
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const responseBody = await upstream.text();
-  console.log(JSON.stringify({ event: "intake_forwarded", requestId, status: upstream.status }));
-
-  return new Response(responseBody, {
-    status: upstream.status,
-    headers: {
-      "content-type": upstream.headers.get("content-type") ?? "application/json; charset=utf-8",
-      "cache-control": "no-store",
-    },
-  });
-};
+  }));
 
 export default {
   async fetch(request, env): Promise<Response> {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/health") {
-      return json({ ok: true, service: "medos-uroclinic-web-preview" });
+      return request.method === "GET"
+        ? json({ ok: true, service: "medos-uroclinic-web-preview" })
+        : json({ error: "method_not_allowed" }, 405, { allow: "GET" });
     }
 
-    if (url.pathname === "/api/intake") {
-      return handleIntake(request, env);
-    }
-
-    if (url.pathname === "/api/appointment") return handleForm(request, env, "appointment");
-    if (url.pathname === "/api/contact") return handleForm(request, env, "contact");
+    // Retired: the legacy forwarding endpoint bypassed the hardened mail workflow.
+    if (url.pathname === "/api/intake") return json({ error: "not_found" }, 404);
+    if (url.pathname === "/api/appointment") return secure(await handleForm(request, env, "appointment"));
+    if (url.pathname === "/api/contact") return secure(await handleForm(request, env, "contact"));
     if (url.pathname.startsWith("/api/")) return json({ error: "not_found" }, 404);
 
-    return env.ASSETS.fetch(request);
+    return secure(await env.ASSETS.fetch(request));
   },
 } satisfies ExportedHandler<Env>;

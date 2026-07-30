@@ -20,7 +20,7 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "astro": "^5.0.3"
+    "astro": "^7.1.6"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

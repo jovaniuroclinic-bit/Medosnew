@@ -4,6 +4,7 @@ import Base from "../layouts/Base.astro";
 const intakeEndpoint = "/api/appointment";
 const formMode = import.meta.env.PUBLIC_FORM_MODE === "preview" ? "preview" : "production";
 const isPreview = formMode === "preview";
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 const whatsappHref =
   "https://wa.me/528712756523?text=Hola%20Dr.%20Jovani.%20Realic%C3%A9%20una%20autoevaluaci%C3%B3n%20en%20UROCLINIC%20y%20deseo%20agendar%20una%20valoraci%C3%B3n.";
 ---
@@ -26,7 +27,7 @@ const whatsappHref =
         <span>También puedes contactarnos</span>
         <a href="tel:+528712756523"><strong>Llamadas</strong><small>871 275 6523</small></a>
         <a href={whatsappHref} rel="noopener noreferrer"><strong>WhatsApp</strong><small>871 275 6523</small></a>
-        <a href="mailto:citas.org"><strong>Correo</strong><small>citas.org</small></a>
+        <a href="mailto:uroclinic.drjovani@proton.me"><strong>Correo</strong><small>uroclinic.drjovani@proton.me</small></a>
         <p>Atención programada. Este canal no sustituye urgencias médicas.</p>
       </aside>
     </div>
@@ -141,6 +142,10 @@ const whatsappHref =
                 datos para gestionar mi solicitud administrativa.
               </span>
             </label>
+
+            {turnstileSiteKey && (
+              <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="appointment"></div>
+            )}
 
             <button class="button button--primary submit-button" type="submit">
               <span class="button-label">Enviar solicitud segura</span>
@@ -326,6 +331,7 @@ const whatsappHref =
           consent: data.get("consent") === "on",
           honeypot: String(data.get("website") ?? ""),
           submissionStartedAt,
+          turnstileToken: String(data.get("cf-turnstile-response") ?? ""),
         };
 
         if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
@@ -838,4 +844,5 @@ const whatsappHref =
       }
     }
   </style>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </Base>
