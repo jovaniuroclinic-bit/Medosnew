@@ -1,0 +1,9 @@
+{
+  "name": "@medos/sentinel-orchestrator",
+  "version": "0.2.0",
+  "private": true,
+  "engines": {"node": ">=22.22"},
+  "scripts": {"n8n": "n8n", "audit": "n8n audit"},
+  "dependencies": {"n8n": "2.32.6"},
+  "packageManager": "pnpm@11.18.0"
+}

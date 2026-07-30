@@ -1,0 +1,4 @@
+{
+  "allowed": ["n8n-nodes-base.manualTrigger","n8n-nodes-base.scheduleTrigger","n8n-nodes-base.httpRequest","n8n-nodes-base.set","n8n-nodes-base.if","n8n-nodes-base.switch","n8n-nodes-base.merge","n8n-nodes-base.wait","n8n-nodes-base.dateTime","n8n-nodes-base.crypto","n8n-nodes-base.executeWorkflow","n8n-nodes-base.errorTrigger","n8n-nodes-base.noOp"],
+  "blocked": ["n8n-nodes-base.executeCommand","n8n-nodes-base.ssh","n8n-nodes-base.ftp","n8n-nodes-base.webhook","n8n-nodes-base.readWriteFile"]
+}

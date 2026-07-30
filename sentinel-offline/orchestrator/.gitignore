@@ -1,0 +1,11 @@
+node_modules/
+.n8n/
+database.sqlite*
+*.db
+*.log
+.env
+.env.*
+!.env.example
+backups/
+runtime/
+tmp/
