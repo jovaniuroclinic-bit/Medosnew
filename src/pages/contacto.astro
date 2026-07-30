@@ -4,7 +4,10 @@ import Base from "../layouts/Base.astro";
 const intakeEndpoint = "/api/appointment";
 const formMode = import.meta.env.PUBLIC_FORM_MODE === "preview" ? "preview" : "production";
 const isPreview = formMode === "preview";
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim();
+if (!turnstileSiteKey || /(?:PEGA_AQUI|CHANGE_ME|PLACEHOLDER)/i.test(turnstileSiteKey)) {
+  throw new Error("PUBLIC_TURNSTILE_SITE_KEY debe contener una Site Key válida.");
+}
 const whatsappHref =
   "https://wa.me/528712756523?text=Hola%20Dr.%20Jovani.%20Realic%C3%A9%20una%20autoevaluaci%C3%B3n%20en%20UROCLINIC%20y%20deseo%20agendar%20una%20valoraci%C3%B3n.";
 ---
@@ -143,9 +146,8 @@ const whatsappHref =
               </span>
             </label>
 
-            {turnstileSiteKey && (
-              <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="appointment"></div>
-            )}
+            <div id="turnstile-widget" class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="appointment"></div>
+            <p id="turnstile-status" class="turnstile-status" role="status" aria-live="polite">Cargando verificación de seguridad…</p>
 
             <button class="button button--primary submit-button" type="submit">
               <span class="button-label">Enviar solicitud segura</span>
@@ -209,6 +211,8 @@ const whatsappHref =
       const newRequest = document.querySelector("#new-request");
       const programContext = document.querySelector("#program-context");
       const programContextLabel = programContext?.querySelector("span");
+      const turnstileContainer = document.querySelector("#turnstile-widget");
+      const turnstileStatus = document.querySelector("#turnstile-status");
 
       if (
         !(form instanceof HTMLFormElement) ||
@@ -223,6 +227,58 @@ const whatsappHref =
       const reasonField = form.querySelector("#reason");
       const endpoint = form.dataset.endpoint ?? "";
       let submissionStartedAt = Date.now();
+      let turnstileWidgetId;
+      let turnstileReady = false;
+
+      const setTurnstileStatus = (message, state = "loading") => {
+        if (!(turnstileStatus instanceof HTMLElement)) return;
+        turnstileStatus.textContent = message;
+        turnstileStatus.dataset.state = state;
+      };
+
+      const resetTurnstile = () => {
+        turnstileReady = false;
+        const turnstile = globalThis.turnstile;
+        if (turnstile && turnstileWidgetId !== undefined) turnstile.reset(turnstileWidgetId);
+      };
+
+      globalThis.medosTurnstileReady = () => {
+        const turnstile = globalThis.turnstile;
+        if (!(turnstileContainer instanceof HTMLElement) || !turnstile) {
+          setTurnstileStatus("No se pudo iniciar la verificación de seguridad.", "error");
+          return;
+        }
+        try {
+          turnstileWidgetId = turnstile.render(turnstileContainer, {
+            sitekey: turnstileContainer.dataset.sitekey,
+            action: "appointment",
+            callback: () => {
+              turnstileReady = true;
+              setTurnstileStatus("Verificación de seguridad completada.", "success");
+            },
+            "expired-callback": () => {
+              turnstileReady = false;
+              setTurnstileStatus("La verificación expiró. Complétala nuevamente.", "error");
+            },
+            "timeout-callback": () => {
+              turnstileReady = false;
+              setTurnstileStatus("La verificación tardó demasiado. Intenta nuevamente.", "error");
+            },
+            "error-callback": () => {
+              turnstileReady = false;
+              setTurnstileStatus("No se pudo cargar la verificación. Si usas Brave, permite Turnstile para este sitio e intenta de nuevo.", "error");
+            },
+          });
+        } catch {
+          setTurnstileStatus("No se pudo cargar la verificación. Revisa el bloqueador de contenido e intenta de nuevo.", "error");
+        }
+      };
+
+      globalThis.setTimeout(() => {
+        if (!globalThis.turnstile && !turnstileReady) {
+          setTurnstileStatus("La verificación fue bloqueada. En Brave, permite Turnstile para este sitio y recarga la página.", "error");
+        }
+      }, 8000);
 
       const programMap = {
         "valoracion-esencial": "Información sobre Valoración Esencial",
@@ -276,6 +332,8 @@ const whatsappHref =
         successPanel.hidden = true;
         folioValue.textContent = "";
         setStatus("", "idle");
+        resetTurnstile();
+        submissionStartedAt = Date.now();
         if (selectedReason && reasonField instanceof HTMLSelectElement) reasonField.value = selectedReason;
         const nameField = form.querySelector("#name");
         if (nameField instanceof HTMLInputElement) nameField.focus();
@@ -313,6 +371,12 @@ const whatsappHref =
         }
 
         const data = new FormData(form);
+        const turnstileToken = String(data.get("cf-turnstile-response") ?? "");
+        if (!turnstileReady || !turnstileToken) {
+          setStatus("Completa la verificación de seguridad antes de enviar.", "error");
+          setTurnstileStatus("Completa la verificación de seguridad.", "error");
+          return;
+        }
         const phoneField = form.querySelector("#phone");
         const rawPhone = String(data.get("phone") ?? "").trim();
         const normalizedPhone = rawPhone.replace(/\D/g, "");
@@ -331,7 +395,7 @@ const whatsappHref =
           consent: data.get("consent") === "on",
           honeypot: String(data.get("website") ?? ""),
           submissionStartedAt,
-          turnstileToken: String(data.get("cf-turnstile-response") ?? ""),
+          turnstileToken,
         };
 
         if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
@@ -368,6 +432,7 @@ const whatsappHref =
                 "error",
               );
             }
+            resetTurnstile();
             return;
           }
 
@@ -844,5 +909,5 @@ const whatsappHref =
       }
     }
   </style>
-  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=medosTurnstileReady" defer></script>
 </Base>

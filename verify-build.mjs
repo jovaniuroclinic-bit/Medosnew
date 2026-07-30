@@ -64,6 +64,19 @@ if (
   throw new Error("La página principal compilada no contiene la marca, el enfoque o el CTA esperado.");
 }
 
+const contact = await readFile(resolve(dist, "contacto/index.html"), "utf8");
+if (
+  !contact.includes(`id="turnstile-widget"`) ||
+  !contact.includes(`class="cf-turnstile"`) ||
+  !contact.includes("turnstile/v0/api.js?render=explicit") ||
+  !contact.includes("medosTurnstileReady")
+) {
+  throw new Error("El formulario compilado no contiene la integración explícita de Turnstile.");
+}
+if (!/data-sitekey="[^"]+"/i.test(contact) || /(?:PEGA_AQUI|CHANGE_ME|PLACEHOLDER)/i.test(contact)) {
+  throw new Error("El formulario compilado no contiene una Site Key válida de Turnstile.");
+}
+
 const cssFiles = (await readdir(resolve(dist, "_astro"))).filter((file) => file.endsWith(".css"));
 if (cssFiles.length === 0) throw new Error("El build no contiene CSS compilado.");
 
