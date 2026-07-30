@@ -7,7 +7,7 @@ Sitio público de UROCLINIC Dr. Jovani. Es una aplicación Astro estática servi
 - `src/pages`: páginas y rutas estáticas de Astro.
 - `src/layouts`: layout compartido y metadatos SEO.
 - `src/styles`: estilos globales.
-- `src/worker/index.ts`: Worker; expone `/api/health`, valida `/api/intake` y delega activos a `ASSETS`.
+- `src/worker/index.ts`: Worker; expone `/api/health`, `/api/appointment` y `/api/contact`, y delega activos a `ASSETS`.
 - `public`: favicon, manifest y tarjetas sociales.
 - `dist`: salida generada, no versionada.
 - `wrangler.jsonc`: configuración de despliegue del Worker `medos-uroclinic-web-preview`.
@@ -44,10 +44,9 @@ El dominio canónico de build es `https://drjovaniurologo.org`.
 
 ## Variables
 
-- `INTAKE_ENDPOINT`: secreto o variable HTTPS de runtime configurada en Cloudflare. Si falta, `/api/intake` devuelve 503 de forma controlada.
+- `MAIL_FROM`, `MAIL_TO_CITAS`, `MAIL_TO_CONTACTO`, `MAIL_TO_PRIVACIDAD`, `MAIL_REPLY_TO` y `FORM_HMAC_SECRET`: secretos de runtime configurados con Wrangler.
 - `PUBLIC_SITE_ENV`: opcional; `preview` activa `noindex` y el banner de preview. El valor predeterminado es `production`.
 - `PUBLIC_FORM_MODE`: opcional; `preview` marca solicitudes sintéticas. El valor predeterminado es `production`.
-- `PUBLIC_INTAKE_ENDPOINT`: opcional; por defecto el formulario usa `/api/intake`.
 
 No se deben guardar secretos ni datos de pacientes en el repositorio. El formulario público admite únicamente datos administrativos mínimos.
 
