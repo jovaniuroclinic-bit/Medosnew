@@ -7,5 +7,6 @@ p("cloudflare","Cloudflare",["Cloudflare"],false,["vaultReference"]),
 p("meta","Meta",["WhatsApp Business","Facebook","Instagram"],true,["clientId","redirectUri"]),
 p("n8n","n8n",["n8n"],false,["credentialAlias"]),p("openai","OpenAI",["OpenAI"],false,["vaultReference"]),
 p("mail","Correo",["SMTP","IMAP"],false,["vaultReference"]),p("s3","S3 compatible",["S3"],false,["vaultReference"]),
-p("ssh","SSH",["SSH"],false,["keyReference"]),p("database","Base de datos",["Database"],false,["vaultReference"])
+p("ssh","SSH",["SSH"],false,["keyReference"]),p("database","Base de datos",["Database"],false,["vaultReference"]),
+p("proton","Proton",["Mail","Calendar","Drive","Pass","Mail Bridge"],false,["AUTORIZACIÓN MANUAL SEGURA REQUERIDA"])
 ];

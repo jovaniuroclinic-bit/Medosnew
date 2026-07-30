@@ -1,0 +1,3 @@
+export const protonServices=[{id:"proton-mail",name:"Proton Mail",mode:"manual-export"},{id:"proton-calendar",name:"Proton Calendar",mode:"manual-export"},{id:"proton-drive",name:"Proton Drive",mode:"owner-click"},{id:"proton-pass",name:"Proton Pass",mode:"external-vault"},{id:"proton-bridge",name:"Proton Mail Bridge",mode:"loopback-reference"}] as const;
+export const protonStates=["PROTON_NOT_CONFIGURED","BRIDGE_NOT_INSTALLED","BRIDGE_LOCKED","AUTHORIZATION_REQUIRED","CONNECTED","DEGRADED","EXPIRED","RECOVERY_REQUIRED","REVOKED","LOCKED"] as const;
+export function bridgeHostAllowed(host:string){return host==="127.0.0.1"||host==="::1"||host==="localhost"}
