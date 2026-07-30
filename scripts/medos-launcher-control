@@ -48,12 +48,17 @@ case "${1:-status}" in
       printf 'Launcher ya está activo: %s (PID %s)\n' "$url" "$pid"
       exit 0
     fi
-    test -x "$module/node_modules/.bin/tsc" || {
-      echo "Dependencia ausente: TypeScript del Launcher." >&2
+    if [[ -x "$module/node_modules/.bin/tsc" ]]; then
+      tsc_bin="$module/node_modules/.bin/tsc"
+    elif [[ -x "$root/node_modules/.bin/tsc" ]]; then
+      tsc_bin="$root/node_modules/.bin/tsc"
+    else
+      echo "TypeScript is unavailable in launcher and workspace." >&2
       exit 6
-    }
+    fi
+
     if [[ ! -f "$entry" ]] || find "$module/src" -type f -newer "$entry" -print -quit | grep -q .; then
-      "$module/node_modules/.bin/tsc" -p "$module/tsconfig.json"
+      "$tsc_bin" -p "$module/tsconfig.json"
     fi
     mkdir -p "$pid_dir" "$log_dir"
     chmod 0700 "$runtime" "$pid_dir" "$log_dir"
