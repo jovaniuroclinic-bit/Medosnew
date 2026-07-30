@@ -11,3 +11,5 @@ Antes de modificar la CLI:
 5. No agregues secretos ni conexiones automáticas.
 
 Pendiente humano: bóveda, clics y Termux real.
+
+Antes de operar, lee también `docs/continuity/SECURITY_INVARIANTS.md`.
