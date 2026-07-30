@@ -1,5 +1,5 @@
 import {createServer} from "node:http";import {readFileSync} from "node:fs";import {fileURLToPath} from "node:url";import {randomUUID} from "node:crypto";
-import {providers} from "../providers/registry.js";import {newSession,sessionValid,type LocalSession} from "./auth.js";import {createCsrf,validCsrf} from "./csrf.js";import {health} from "./health.js";import {UnavailableVault} from "./vault-adapter.js";
+import {providers} from "../providers/registry.js";import {newSession,sessionValid,type LocalSession} from "./auth.js";import {createCsrf,validCsrf} from "./csrf.js";import {health} from "./health.js";import {detectVaults} from "./vault-selection.js";import {UnavailableVault} from "./vault-adapter.js";
 const ui=fileURLToPath(new URL("../ui/",import.meta.url)),vault=new UnavailableVault(),sessions=new Map<string,LocalSession>();let locked=false;
 const headers={"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","Referrer-Policy":"no-referrer","Permissions-Policy":"camera=(), microphone=(), geolocation=()","Content-Security-Policy":"default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"};
 function send(res:any,status:number,body:unknown,type="application/json; charset=utf-8"){res.writeHead(status,{"Content-Type":type,...headers});res.end(type.startsWith("application/json")?JSON.stringify(body):body)}
@@ -10,6 +10,7 @@ const url=new URL(req.url??"/",`http://${req.headers.host}`);let sid=(req.header
 if(url.pathname==="/api/session"&&req.method==="POST"){const csrf=createCsrf();session=newSession(csrf);sessions.set(session.id,session);res.setHeader("Set-Cookie",`medos_session=${session.id}; HttpOnly; SameSite=Strict; Path=/; Max-Age=600`);return send(res,201,{csrf,expiresAtUtc:new Date(session.expires).toISOString()})}
 if(url.pathname.startsWith("/api/")&&!sessionValid(session))return send(res,401,{error:"Sesión expirada",incidentId});
 if(url.pathname==="/api/health"&&req.method==="GET")return send(res,200,health(await vault.healthCheck()));
+if(url.pathname==="/api/vaults"&&req.method==="GET")return send(res,200,{selected:null,candidates:detectVaults()});
 if(url.pathname==="/api/providers"&&req.method==="GET")return send(res,200,{locked,providers:providers.map(p=>({...p,state:locked?"LOCKED":"UNCONFIGURED",status:"Configuración requerida",actions:["Configurar","Ver permisos"]}))});
 if(url.pathname==="/api/lock-all"&&req.method==="POST"){if(!validCsrf(session!.csrf,String(req.headers["x-csrf-token"]??"")))return send(res,403,{error:"Solicitud rechazada",incidentId});locked=true;sessions.clear();return send(res,200,{locked:true})}
 if(url.pathname.startsWith("/api/"))return send(res,405,{error:"Método no permitido",incidentId});
