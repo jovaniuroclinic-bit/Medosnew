@@ -22,7 +22,11 @@
     "sentinel:verify": "node sentinel-offline/build/cli.js verificar-instalacion",
     "sentinel:start": "tsc -p sentinel-offline/tsconfig.json && node sentinel-offline/build/localServer.js",
     "sentinel:ui": "tsc -p sentinel-offline/tsconfig.json && node sentinel-offline/build/localServer.js",
-    "launcher:scan-secrets": "node sentinel-offline/launcher/scripts/verify-no-secrets.mjs"
+    "launcher:scan-secrets": "node sentinel-offline/launcher/scripts/verify-no-secrets.mjs",
+    "centinela": "./scripts/centinela",
+    "centinela:status": "./scripts/centinela status",
+    "centinela:doctor": "./scripts/centinela doctor --check",
+    "centinela:test": "./scripts/centinela test full"
   },
   "dependencies": {
     "astro": "^7.1.6"

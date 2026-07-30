@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+cd "$root"
+case "${1:-status}" in
+ test) echo "BLOCKED: restore test requiere backup sintético o bóveda cifrada."; exit 5;;
+ kit) echo "El kit se mantiene en MEDOS_RECOVERY_KIT mediante documentación versionada; no se incluyeron secretos."; exit 0;;
+ *) exit 2;;
+esac

@@ -1,0 +1,1 @@
+{"bindHost":"127.0.0.1","launcherPort":4319,"sentinelPort":4317,"n8nPort":5678,"logTailLimit":1000,"operationTimeoutMs":300000,"runtimeDirectory":"runtime","pidDirectory":"runtime/pids"}

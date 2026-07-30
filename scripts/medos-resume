@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+cd "$root"
+case "${1:-}" in
+  --print-prompt) printf 'Continúe MEDOS desde docs/continuity/CODEX_HANDOFF.md; preserve fail-closed y revise el último checkpoint.\n';;
+  --check|"") test -f docs/continuity/SESSION_MANIFEST.json && echo "PASS: manifiesto de continuidad disponible." || { echo "WARN: aún no existe manifiesto de continuidad."; exit 7; };;
+  --last-checkpoint) git log -1 --format='%h %s';;
+  *) exit 2;;
+esac

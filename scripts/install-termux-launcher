@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+target="${HOME}/medos"
+[[ ! -e "$target" ]] || { echo "No se sobrescribió $target"; exit 4; }
+tmp="$(mktemp "${TMPDIR:-/tmp}/medos-launcher.XXXXXX")"
+trap 'rm -f "$tmp"' EXIT
+printf '#!/usr/bin/env bash\nset -euo pipefail\ncd %q\n./scripts/medos-resume --check\nexec ./scripts/centinela\n' "$root" > "$tmp"
+chmod 700 "$tmp"
+if cp -n "$tmp" "$target" 2>/dev/null; then chmod 700 "$target"; echo "Instalado: $target"; else echo "Copie desde Termux: cp '$tmp' '$target' && chmod 700 '$target'"; trap - EXIT; fi

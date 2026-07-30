@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+cd "$root"
+case "${1:---quick}" in
+ --quick) node_modules/.bin/tsc -p sentinel-offline/tsconfig.json; node --test sentinel-offline/test/centinela.test.mjs;;
+ --security) node_modules/.bin/tsc -p sentinel-offline/tsconfig.json; node --test sentinel-offline/test/centinela.test.mjs sentinel-offline/launcher/tests/security.test.mjs sentinel-offline/launcher/tests/recovery-security.test.mjs;;
+ --full) corepack pnpm test;;
+ *) exit 2;;
+esac

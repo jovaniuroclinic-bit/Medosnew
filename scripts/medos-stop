@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+component="${1:-}"; [[ "$component" =~ ^(launcher|n8n|all)$ ]] || { echo "Componente inválido" >&2; exit 2; }
+echo "No hay procesos MEDOS reconocidos que detener."

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+confirmed=0
+for arg in "$@"; do [[ "$arg" == "--confirm-lock" ]] && confirmed=1; done
+[[ "$confirmed" -eq 1 ]] || { echo "Confirmación humana requerida." >&2; exit 4; }
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+runtime="$root/runtime"
+mkdir -p "$runtime"; chmod 700 "$runtime"
+(umask 077; printf '{"locked":true,"timestamp":"%s","reason":"redacted"}\n' "$(date -u +%FT%TZ)" > "$runtime/emergency.lock")
+echo "Bloqueo local activado; datos y backups preservados."

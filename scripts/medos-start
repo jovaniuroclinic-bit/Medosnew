@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+cd "$root"
+component="${1:-}"; shift || true
+[[ "$component" =~ ^(launcher|n8n|all)$ ]] || { echo "Componente inválido" >&2; exit 2; }
+host="${MEDOS_BIND_HOST:-127.0.0.1}"
+[[ "$host" == "127.0.0.1" ]] || { echo "BLOCKED: solo se permite 127.0.0.1" >&2; exit 3; }
+echo "BLOCKED: inicio requiere bóveda seleccionada y sesión humana del Launcher." >&2
+exit 5

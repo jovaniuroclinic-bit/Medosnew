@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+cd "$root"
+tail_count=100
+while [[ $# -gt 0 ]]; do case "$1" in launcher|n8n|--follow) shift;; --tail) tail_count="${2:-}"; shift 2;; --tail=*) tail_count="${1#*=}"; shift;; *) exit 2;; esac; done
+[[ "$tail_count" =~ ^[0-9]+$ ]] && ((tail_count>=1 && tail_count<=1000)) || exit 2
+echo "No hay logs redactados disponibles."

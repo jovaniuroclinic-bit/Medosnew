@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+cd "$root"
+json=0
+for arg in "$@"; do [[ "$arg" == "--json" ]] && json=1; done
+node_ok=false; command -v node >/dev/null && node_ok=true
+git_ok=false; git rev-parse --is-inside-work-tree >/dev/null 2>&1 && git_ok=true
+bind_ok=true
+if command -v ss >/dev/null && ss -ltn 2>/dev/null | grep -Eq '(^|[[:space:]])(0\.0\.0\.0|\[::\]):(4317|4319|5678)([[:space:]]|$)'; then bind_ok=false; fi
+status=PASS; code=0
+if [[ "$node_ok" != true || "$git_ok" != true ]]; then status=FAIL; code=6; elif [[ "$bind_ok" != true ]]; then status=BLOCKED; code=3; fi
+if [[ "$json" -eq 1 ]]; then
+  printf '{"ok":%s,"status":"%s","command":"doctor","timestamp":"%s","data":{"node":%s,"git":%s,"loopbackOnly":%s},"warnings":[],"nextAction":""}\n' "$([[ "$code" -eq 0 ]] && echo true || echo false)" "$status" "$(date -u +%FT%TZ)" "$node_ok" "$git_ok" "$bind_ok"
+else
+  printf '%s node\n%s git\n%s loopback-listeners\n' "$([[ "$node_ok" == true ]] && echo PASS || echo FAIL)" "$([[ "$git_ok" == true ]] && echo PASS || echo FAIL)" "$([[ "$bind_ok" == true ]] && echo PASS || echo BLOCKED)"
+fi
+exit "$code"

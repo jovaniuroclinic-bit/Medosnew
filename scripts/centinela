@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || { echo "No está dentro de un repositorio Git." >&2; exit 2; }
+test -f "$root/sentinel-offline/package.json" && test -f "$root/package.json" || { echo "Repositorio MEDOS no reconocido." >&2; exit 2; }
+cd "$root"
+artifact="sentinel-offline/build/centinela.js"
+stale=0
+if [[ ! -f "$artifact" ]]; then stale=1
+elif find sentinel-offline/src -type f -newer "$artifact" -print -quit | grep -q .; then stale=1
+fi
+if [[ "$stale" -eq 1 ]]; then
+  test -x node_modules/.bin/tsc || { echo "Dependencia ausente: TypeScript. No se descargará automáticamente." >&2; exit 6; }
+  node_modules/.bin/tsc -p sentinel-offline/tsconfig.json
+fi
+exec node "$artifact" "$@"
