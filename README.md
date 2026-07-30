@@ -1,52 +1,56 @@
-# MEDOS / UROCLINIC web
+# MEDOS / UROCLINIC
 
-Sitio público de UROCLINIC Dr. Jovani, construido con Astro estático y desplegado como Cloudflare Worker con activos estáticos y un entrypoint real.
+Sitio público de UROCLINIC Dr. Jovani. Es una aplicación Astro estática servida por Cloudflare Workers Static Assets, con un Worker ES Modules para las rutas API.
 
 ## Arquitectura
 
-- `apps/web`: Astro 5, páginas estáticas y estilos.
-- `src/index.ts`: Worker ES Modules; expone `/api/health`, protege `/api/intake` y entrega el resto mediante `ASSETS`.
-- `wrangler.jsonc`: fuente de verdad del despliegue.
-- `.github/workflows/ci.yml`: lint, typecheck, pruebas disponibles, build, validación de rutas y dry-run.
+- `src/pages`: páginas y rutas estáticas de Astro.
+- `src/layouts`: layout compartido y metadatos SEO.
+- `src/styles`: estilos globales.
+- `src/worker/index.ts`: Worker; expone `/api/health`, valida `/api/intake` y delega activos a `ASSETS`.
+- `public`: favicon, manifest y tarjetas sociales.
+- `dist`: salida generada, no versionada.
+- `wrangler.jsonc`: configuración de despliegue del Worker `medos-uroclinic-web-preview`.
 
-## Comandos
+## Requisitos
+
+- Node.js 22 LTS.
+- pnpm 11.18 mediante Corepack.
+
+## Desarrollo y validación
 
 ```bash
 corepack enable
-corepack prepare pnpm@11.13.1 --activate
-pnpm install --no-frozen-lockfile
-pnpm run check
-pnpm run deploy:dry-run
-pnpm run deploy
+pnpm install --frozen-lockfile
+pnpm test
+pnpm lint
+pnpm check
+pnpm build
+pnpm verify
+pnpm deploy:dry-run
 ```
 
-## Cloudflare Workers Builds
+`pnpm check` y `pnpm typecheck` ejecutan ambos `astro check`; el segundo se conserva como alias explícito para CI y diagnóstico.
 
-Configurar el Worker `medos-uroclinic-web-preview` con:
+## Despliegue
 
-- Repositorio: `adminuroclinicdrjovani-dotcom/Project`
-- Rama de producción: `main`
-- Directorio raíz: `/`
-- Comando de compilación: `corepack enable && corepack prepare pnpm@11.13.1 --activate && pnpm install --no-frozen-lockfile && pnpm run build`
-- Comando de despliegue: `pnpm run deploy`
-- Comando de preview: `pnpm exec wrangler versions upload`
+```bash
+pnpm deploy
+```
 
-El nombre del Worker coincide exactamente con `wrangler.jsonc`, requisito de Workers Builds.
+Wrangler compila `src/worker/index.ts` y publica `dist` mediante el binding `ASSETS`. Las rutas `/api/*` ejecutan primero el Worker. Las demás rutas se sirven como activos estáticos, con URLs sin barra final y página `404.html`.
 
-## Variables y secretos
+El dominio canónico de build es `https://drjovaniurologo.org`.
 
-El sitio no contiene secretos. Para activar el formulario en producción, configurar en Cloudflare una variable secreta de runtime llamada `INTAKE_ENDPOINT` con la URL HTTPS del webhook de recepción. `keep_vars: true` evita eliminar variables ya configuradas en el panel durante un despliegue.
+## Variables
 
-## Rutas verificadas por CI
+- `INTAKE_ENDPOINT`: secreto o variable HTTPS de runtime configurada en Cloudflare. Si falta, `/api/intake` devuelve 503 de forma controlada.
+- `PUBLIC_SITE_ENV`: opcional; `preview` activa `noindex` y el banner de preview. El valor predeterminado es `production`.
+- `PUBLIC_FORM_MODE`: opcional; `preview` marca solicitudes sintéticas. El valor predeterminado es `production`.
+- `PUBLIC_INTAKE_ENDPOINT`: opcional; por defecto el formulario usa `/api/intake`.
 
-- `/`
-- `/servicios`
-- `/programas`
-- `/contacto`
-- `/privacidad`
-- `/api/health`
-- página 404
+No se deben guardar secretos ni datos de pacientes en el repositorio. El formulario público admite únicamente datos administrativos mínimos.
 
-## Dominio
+## CI
 
-El sitio genera URL canónica para `https://drjovaniurologo.org`. La asociación del dominio personalizado se conserva en Cloudflare y no se guarda como secreto en GitHub.
+`.github/workflows/ci.yml` usa Node.js 22 y pnpm con lockfile congelado. Ejecuta pruebas, lint, Astro/TypeScript, build, verificación del artefacto y dry-run de Wrangler.
