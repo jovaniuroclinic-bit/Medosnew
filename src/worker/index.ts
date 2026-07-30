@@ -1,4 +1,6 @@
-interface Env {
+import { handleForm, type FormEnv } from "./forms.ts";
+
+interface Env extends FormEnv {
   ASSETS: Fetcher;
   INTAKE_ENDPOINT?: string;
 }
@@ -92,6 +94,10 @@ export default {
     if (url.pathname === "/api/intake") {
       return handleIntake(request, env);
     }
+
+    if (url.pathname === "/api/appointment") return handleForm(request, env, "appointment");
+    if (url.pathname === "/api/contact") return handleForm(request, env, "contact");
+    if (url.pathname.startsWith("/api/")) return json({ error: "not_found" }, 404);
 
     return env.ASSETS.fetch(request);
   },

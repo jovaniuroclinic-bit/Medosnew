@@ -1,0 +1,6 @@
+MAIL_FROM=notificaciones@example.invalid
+MAIL_TO_CITAS=appointments@example.invalid
+MAIL_TO_CONTACTO=contact@example.invalid
+MAIL_TO_PRIVACIDAD=privacy@example.invalid
+MAIL_REPLY_TO=reply@example.invalid
+FORM_HMAC_SECRET=replace-with-a-random-local-development-value
