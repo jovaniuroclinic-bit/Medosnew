@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071426">
+  <meta name="description" content="Centro local y privado de operaciones MEDOS">
+  <title>MEDOS Sentinel One</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/sentinel.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Saltar al contenido</a>
+  <div class="shell">
+    <aside class="sidebar glass" aria-label="Navegación principal">
+      <div class="brand"><img src="/icons/sentinel.svg" alt="" width="38" height="38"><span>MEDOS<br><b>Sentinel One</b></span></div>
+      <nav id="nav"></nav>
+      <button id="theme" class="quiet" type="button" aria-label="Cambiar tema">◐ Tema</button>
+    </aside>
+    <main id="main">
+      <header class="topbar">
+        <div><p class="eyebrow">CENTRO PRIVADO · OFFLINE</p><h1>Buen día, Dr. Jovani</h1></div>
+        <div class="local"><span></span> Solo 127.0.0.1</div>
+      </header>
+      <section class="focus-grid" aria-label="Resumen TDAH">
+        <article class="glass status done"><p>HECHO</p><ul id="done"><li>Sentinel iniciado</li></ul></article>
+        <article class="glass status now"><p>AHORA</p><h2 id="now">Cargando siguiente acción…</h2><button id="continue" type="button">Continuar</button></article>
+        <article class="glass status pending"><p>PENDIENTE</p><ul id="pending"><li>Validar checkpoint</li></ul></article>
+      </section>
+      <section class="workspace">
+        <article class="glass chat-card">
+          <div class="section-head"><div><p class="eyebrow">CHAT LOCAL</p><h2>Asistente sin modelo</h2></div><span class="badge">No guarda conversación</span></div>
+          <div id="messages" class="messages" role="log" aria-live="polite"><div class="assistant">Estoy listo. Puedo organizar tareas y recuperar checkpoints sin Internet.</div></div>
+          <form id="chat-form"><label class="sr-only" for="message">Mensaje</label><input id="message" maxlength="1000" autocomplete="off" placeholder="¿Qué necesitas hacer ahora?"><button type="submit">Enviar</button></form>
+          <div class="quick" aria-label="Comandos rápidos"><button data-command="continuar">continuar</button><button data-command="pausar">pausar</button><button data-command="ayuda">ayuda</button><button data-command="emergencia">emergencia</button></div>
+        </article>
+        <aside class="glass context">
+          <p class="eyebrow">CONTEXTO</p><h2>Checkpoint A</h2>
+          <dl><div><dt>Red</dt><dd>Desactivada</dd></div><div><dt>Modelo</dt><dd>No requerido</dd></div><div><dt>Rol</dt><dd>OWNER local</dd></div><div><dt>Proyectos</dt><dd id="project-count">0</dd></div></dl>
+          <button id="details" class="quiet" type="button" aria-expanded="false">Ver detalles</button>
+          <div id="detail-panel" hidden><p>Las acciones externas permanecen deshabilitadas. No hay cuentas conectadas.</p></div>
+        </aside>
+      </section>
+    </main>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav glass" aria-label="Navegación móvil"></nav>
+</body>
+</html>

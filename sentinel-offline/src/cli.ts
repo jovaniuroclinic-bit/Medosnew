@@ -18,6 +18,7 @@ import {gitStatus} from "./tools/gitStatus.js";
 import {diskSpace} from "./tools/diskSpace.js";
 import {emergencyChecklist} from "./tools/emergencyChecklist.js";
 import {Orchestrator} from "./orchestrator.js";
+import {startLocalServer} from "./localServer.js";
 
 const dataDir = process.env.MEDOS_SENTINEL_DATA_DIR ?? join(homedir(), ".local", "share", "medos-sentinel");
 const dbPath = join(dataDir, "sentinel.db");
@@ -32,6 +33,7 @@ async function main(): Promise<void> {
   process.env.NETWORK_DISABLED ??= "true";
   const [command = "menu", ...args] = process.argv.slice(2);
   if (command === "menu") { console.log(MENU); return; }
+  if (command === "ui") { const port = Number(args.at(0) ?? 4317); startLocalServer(port); console.log(`MEDOS Sentinel One: http://127.0.0.1:${String(port)}`); return; }
   if (command === "estado") {
     const cp = loadCheckpoint(checkpointPath);
     console.log(tdahStatus(cp?.completed.at(-1) ?? "Sentinel disponible", "Revisar el siguiente paso", cp ? [cp.nextStep] : ["Inicializar conocimiento"]));

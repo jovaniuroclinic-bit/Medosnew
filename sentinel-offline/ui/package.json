@@ -1,0 +1,7 @@
+{
+  "name": "@medos/sentinel-one-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PWA local sin dependencias remotas para MEDOS Sentinel One"
+}

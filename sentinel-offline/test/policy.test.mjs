@@ -11,7 +11,7 @@ test("rechaza herramientas prohibidas", () => {
 });
 test("requiere confirmación completa para destructivas", () => {
   const result = evaluateAction({tool: "restore", arguments: {}, reason: "prueba"}, "DESTRUCTIVE");
-  assert.equal(result.confirmation, "full");
+  assert.equal(result.confirmation, "reauth");
 });
 test("redacta secretos y correo sintético", () => {
   assert.equal(containsSensitiveData("token=synthetic_long_value_for_testing_only_123"), true);

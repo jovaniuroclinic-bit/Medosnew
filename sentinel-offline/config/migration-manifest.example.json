@@ -1,0 +1,11 @@
+{
+  "source": "MEDOS repository at verified commit",
+  "destination": "local Sentinel knowledge database",
+  "included": ["architecture", "runbooks", "public configuration", "schemas", "verified backup metadata"],
+  "excluded": ["credentials", "tokens", "cookies", "private keys", "2FA codes", "sessions", "patient data", "forms", "private addresses"],
+  "hashes": [],
+  "timestampUtc": null,
+  "approvedBy": "owner",
+  "toolVersion": "0.1.0",
+  "result": "PENDING_OWNER_APPROVAL"
+}
