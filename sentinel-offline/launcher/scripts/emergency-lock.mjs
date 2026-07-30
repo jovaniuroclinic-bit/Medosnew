@@ -1,0 +1,1 @@
+const response=await fetch("http://127.0.0.1:4319/api/session",{method:"POST"});if(!response.ok)throw new Error("Launcher no disponible");console.error("Use el botón local con reautenticación; bloqueo remoto rechazado.");

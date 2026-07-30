@@ -1,0 +1,6 @@
+import test from "node:test";import assert from "node:assert/strict";
+import {redact} from "../build/server/redaction.js";import {beginOAuth,consumeOAuth} from "../build/server/oauth.js";import {UnavailableVault} from "../build/server/vault-adapter.js";import {start} from "../build/server/index.js";
+test("redacción recursiva",()=>{const out=JSON.stringify(redact({token:"abc",note:"Bearer synthetic-value"}));assert(!out.includes("synthetic-value"))});
+test("OAuth state, redirect y uso único",()=>{const f=beginOAuth("http://127.0.0.1/callback");assert.ok(consumeOAuth(f.id,f.state,f.redirectUri));assert.throws(()=>consumeOAuth(f.id,f.state,f.redirectUri))});
+test("bóveda ausente falla cerrada",async()=>{const v=new UnavailableVault();assert.equal(await v.healthCheck(),false);await assert.rejects(()=>v.createReference("x"))});
+test("loopback y frontend sin secretos",async()=>{const server=start(0);await new Promise(r=>server.once("listening",r));const a=server.address();assert.equal(a.address,"127.0.0.1");const base=`http://127.0.0.1:${a.port}`;const s=await fetch(`${base}/api/session`,{method:"POST"});const cookie=s.headers.get("set-cookie").split(";")[0];const body=await fetch(`${base}/api/providers`,{headers:{cookie}}).then(r=>r.text());assert.doesNotMatch(body,/client_secret|access_token|refresh_token|password/i);await new Promise(r=>server.close(r))});

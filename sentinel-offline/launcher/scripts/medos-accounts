@@ -1,0 +1,12 @@
+#!/data/data/com.termux/files/usr/bin/bash
+set -Eeuo pipefail
+umask 077
+root="$(git rev-parse --show-toplevel)"
+test -f "$root/sentinel-offline/launcher/package.json" || { echo "Repositorio incorrecto"; exit 1; }
+case "${1:-}" in
+ --doctor) node --version; test -x "$root/sentinel-offline/launcher/node_modules/.bin/tsc"; echo "Vault: configuración requerida"; exit;;
+ --status) curl -fsS http://127.0.0.1:4319/api/health || true; exit;;
+ --lock-all) echo "Abra la UI y reautentique para bloquear."; exit 2;;
+esac
+cd "$root/sentinel-offline/launcher"
+exec node build/server/index.js
