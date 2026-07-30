@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+module="$root/sentinel-offline/launcher"
+entry="$module/build/server/index.js"
+runtime="$root/runtime"
+pid_dir="$runtime/pids"
+log_dir="$runtime/logs"
+pid_file="$pid_dir/launcher.pid"
+log_file="$log_dir/launcher.log"
+url="http://127.0.0.1:4319"
+
+test -f "$module/package.json" || { echo "Repositorio MEDOS no reconocido." >&2; exit 2; }
+
+recognized_pid() {
+  local pid="${1:-}"
+  [[ "$pid" =~ ^[0-9]+$ ]] || return 1
+  kill -0 "$pid" 2>/dev/null || return 1
+  [[ -r "/proc/$pid/cmdline" ]] || return 1
+  tr '\0' '\n' < "/proc/$pid/cmdline" | grep -Fxq "$entry"
+}
+
+read_pid() {
+  [[ -f "$pid_file" && ! -L "$pid_file" ]] || return 1
+  local pid
+  IFS= read -r pid < "$pid_file"
+  recognized_pid "$pid" || return 1
+  printf '%s' "$pid"
+}
+
+case "${1:-status}" in
+  status)
+    if pid="$(read_pid)" && curl -fsS --max-time 2 "$url/api/health" >/dev/null 2>&1; then
+      printf 'RUNNING %s PID %s\n' "$url" "$pid"
+      exit 0
+    fi
+    echo "STOPPED"
+    exit 7
+    ;;
+  start)
+    [[ "${MEDOS_BIND_HOST:-127.0.0.1}" == "127.0.0.1" ]] || {
+      echo "BLOCKED: solo se permite 127.0.0.1" >&2
+      exit 3
+    }
+    if pid="$(read_pid)"; then
+      printf 'Launcher ya está activo: %s (PID %s)\n' "$url" "$pid"
+      exit 0
+    fi
+    test -x "$module/node_modules/.bin/tsc" || {
+      echo "Dependencia ausente: TypeScript del Launcher." >&2
+      exit 6
+    }
+    if [[ ! -f "$entry" ]] || find "$module/src" -type f -newer "$entry" -print -quit | grep -q .; then
+      "$module/node_modules/.bin/tsc" -p "$module/tsconfig.json"
+    fi
+    mkdir -p "$pid_dir" "$log_dir"
+    chmod 0700 "$runtime" "$pid_dir" "$log_dir"
+    : > "$log_file"
+    chmod 0600 "$log_file"
+    MEDOS_ACCOUNTS_PORT=4319 nohup node "$entry" </dev/null >>"$log_file" 2>&1 &
+    pid="$!"
+    printf '%s\n' "$pid" > "$pid_file"
+    chmod 0600 "$pid_file"
+    for attempt in {1..20}; do
+      if recognized_pid "$pid" && curl -fsS --max-time 1 "$url/api/health" >/dev/null 2>&1; then
+        printf 'Launcher local: %s\n' "$url"
+        echo "Bóveda: selección humana pendiente; conexiones BLOCKED."
+        exit 0
+      fi
+      sleep 0.25
+    done
+    if recognized_pid "$pid"; then kill "$pid" 2>/dev/null || true; fi
+    rm -f "$pid_file"
+    echo "Launcher no alcanzó health local." >&2
+    exit 7
+    ;;
+  stop)
+    pid="$(read_pid)" || { echo "No hay Launcher MEDOS reconocido."; exit 0; }
+    kill "$pid"
+    for attempt in {1..20}; do
+      kill -0 "$pid" 2>/dev/null || break
+      sleep 0.25
+    done
+    if kill -0 "$pid" 2>/dev/null; then
+      echo "No se pudo detener de forma segura el PID reconocido." >&2
+      exit 7
+    fi
+    rm -f "$pid_file"
+    echo "Launcher MEDOS detenido."
+    ;;
+  *)
+    echo "Acción inválida." >&2
+    exit 2
+    ;;
+esac

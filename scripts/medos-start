@@ -6,5 +6,8 @@ component="${1:-}"; shift || true
 [[ "$component" =~ ^(launcher|n8n|all)$ ]] || { echo "Componente inválido" >&2; exit 2; }
 host="${MEDOS_BIND_HOST:-127.0.0.1}"
 [[ "$host" == "127.0.0.1" ]] || { echo "BLOCKED: solo se permite 127.0.0.1" >&2; exit 3; }
-echo "BLOCKED: inicio requiere bóveda seleccionada y sesión humana del Launcher." >&2
+if [[ "$component" == "launcher" ]]; then
+  exec "$root/scripts/medos-launcher-control" start "$@"
+fi
+echo "BLOCKED: n8n requiere bóveda seleccionada; no se activaron workflows." >&2
 exit 5

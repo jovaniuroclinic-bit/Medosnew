@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
-component="${1:-}"; [[ "$component" =~ ^(launcher|n8n|all)$ ]] || { echo "Componente inválido" >&2; exit 2; }
-echo "No hay procesos MEDOS reconocidos que detener."
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 2
+component="${1:-}"
+[[ "$component" =~ ^(launcher|n8n|all)$ ]] || { echo "Componente inválido" >&2; exit 2; }
+if [[ "$component" == "launcher" || "$component" == "all" ]]; then
+  "$root/scripts/medos-launcher-control" stop
+fi
+if [[ "$component" == "n8n" || "$component" == "all" ]]; then
+  echo "No hay proceso n8n MEDOS reconocido."
+fi

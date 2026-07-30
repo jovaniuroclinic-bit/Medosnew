@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {spawnSync} from "node:child_process";
 import {fileURLToPath} from "node:url";
-import {dirname,resolve} from "node:path";
+import {dirname,join,resolve} from "node:path";
+import {mkdirSync,unlinkSync,writeFileSync} from "node:fs";
 import {redactCli} from "../build/cliRedaction.js";
 import {EXIT} from "../build/centinela.js";
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"../..");
@@ -17,3 +18,5 @@ test("reject public binds",()=>{assert.equal(run(["start","launcher"],{MEDOS_BIN
 test("checkpoint inert",()=>{const before=run(["version"]).stdout;assert.equal(run(["checkpoint","--message","synthetic checkpoint"]).status,0);assert.equal(run(["version"]).stdout,before)});
 test("exit contract",()=>assert.deepEqual(EXIT,{OK:0,GENERAL:1,ARGUMENTS:2,BLOCKED:3,HUMAN:4,VAULT:5,DEPENDENCY:6,UNHEALTHY:7,DIRTY:8,SECRET:9,REMOTE:10}));
 test("NO_COLOR",()=>assert(!run(["status"],{NO_COLOR:"1"}).stdout.includes("\u001b[")));
+
+test("stop rejects a foreign PID",()=>{const pidDir=join(root,"runtime","pids"),pidFile=join(pidDir,"launcher.pid");mkdirSync(pidDir,{recursive:true,mode:0o700});writeFileSync(pidFile,`${process.pid}\n`,{mode:0o600});try{const r=run(["stop","launcher"]);assert.equal(r.status,0);assert(process.kill(process.pid,0))}finally{try{unlinkSync(pidFile)}catch{}}});

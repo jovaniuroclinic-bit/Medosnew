@@ -13,3 +13,5 @@ Antes de modificar la CLI:
 Pendiente humano: bóveda, clics y Termux real.
 
 Antes de operar, lee también `docs/continuity/SECURITY_INVARIANTS.md`.
+
+Para seleccionar bóveda: ejecuta `./scripts/centinela start launcher --no-browser`, abre `http://127.0.0.1:4319` y realiza el clic explícito. No introduzcas claves en la CLI.
