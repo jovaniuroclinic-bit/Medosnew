@@ -17,7 +17,7 @@ const isProduction = siteEnvironment === "production";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL("/social-card.png", Astro.site);
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const phoneHref = "tel:+528713302526";
+const phoneHref = "tel:+528712657523";
 const whatsappHref =
   "https://wa.me/528712657523?text=Hola%2C%20deseo%20consultar%20disponibilidad%20de%20cita.";
 const address =
@@ -38,7 +38,7 @@ const structuredData = {
       "@id": `${Astro.site?.toString()}#clinic`,
       name: "UROCLINIC Dr. Jovani",
       url: Astro.site?.toString(),
-      telephone: "+52 871 330 2526",
+      telephone: "+52 871 265 7523",
       medicalSpecialty: "Urology",
       address: {
         "@type": "PostalAddress",
@@ -114,7 +114,7 @@ const structuredData = {
       <div class="container contact-strip-inner">
         <span>Atención urológica programada en Torreón, Coahuila</span>
         <div>
-          <a href={phoneHref}>Llamadas: 871 330 2526</a>
+          <a href={phoneHref}>Llamadas: 871 265 7523</a>
           <a href={whatsappHref} rel="noopener noreferrer">WhatsApp: 871 265 7523</a>
         </div>
       </div>
@@ -178,7 +178,7 @@ const structuredData = {
         <section aria-labelledby="footer-contact">
           <h2 id="footer-contact">Contacto</h2>
           <address>
-            <a href={phoneHref}>871 330 2526</a><br />
+            <a href={phoneHref}>871 265 7523</a><br />
             <a href={whatsappHref} rel="noopener noreferrer">WhatsApp 871 265 7523</a><br />
             {address}
           </address>
