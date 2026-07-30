@@ -1,0 +1,2 @@
+export type RecoveryStatus="RESTAURADO"|"REQUIERE CLIC"|"REQUIERE 2FA"|"REQUIERE BRIDGE"|"REQUIERE ROTACIÓN"|"NO DISPONIBLE"|"VALIDADO"|"BLOQUEADO";
+export function buildRecoveryQueue(items:Array<{provider:string;referenceId?:string;validReference:boolean}>){return items.map(item=>item.validReference?{provider:item.provider,referenceId:item.referenceId,status:"REQUIERE CLIC" as const,reason:"Configuración restaurada; credencial no recuperada"}:{provider:item.provider,status:"REQUIERE ROTACIÓN" as const,reason:"Falta credencial; requiere autorización manual"})}
