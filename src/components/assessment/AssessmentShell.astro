@@ -91,7 +91,7 @@ const config = { name, strategy, questions: questions.map(({ domain }) => ({ dom
   </div>
 </section>
 
-<a class="floating-whatsapp" href="https://wa.me/528712756523" rel="noopener noreferrer">
+<a class="floating-whatsapp" href="https://wa.me/528712657523" rel="noopener noreferrer">
   Agendar por WhatsApp
 </a>
 
@@ -207,7 +207,7 @@ const config = { name, strategy, questions: questions.map(({ domain }) => ({ dom
       result.querySelector("[data-result-meter]").style.width = `${Math.min(100, ((output.meter ?? output.score ?? 0) / output.max) * 100)}%`;
       result.querySelector("[data-result-date]").textContent = new Intl.DateTimeFormat("es-MX", { dateStyle: "long" }).format(new Date());
       const safeMessage = `Hola Dr. Jovani. Realicé la evaluación de ${config.name} en UROCLINIC. Mi categoría orientativa fue ${output.category}. Deseo agendar una valoración.`;
-      result.querySelector("[data-result-whatsapp]").href = `https://wa.me/528712756523?text=${encodeURIComponent(safeMessage)}`;
+      result.querySelector("[data-result-whatsapp]").href = `https://wa.me/528712657523?text=${encodeURIComponent(safeMessage)}`;
       result.focus();
       window.dispatchEvent(new CustomEvent("assessment_completed"));
     });

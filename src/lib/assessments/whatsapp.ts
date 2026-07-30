@@ -1,4 +1,4 @@
-export const CLINIC_PHONE = "528712756523";
+export const CLINIC_PHONE = "528712657523";
 export const PHONE_HREF = `tel:+${CLINIC_PHONE}`;
 
 export function assessmentWhatsAppHref(name: string, category: string): string {
@@ -8,6 +8,6 @@ export function assessmentWhatsAppHref(name: string, category: string): string {
 
 export function genericWhatsAppHref(): string {
   return `https://wa.me/${CLINIC_PHONE}?text=${encodeURIComponent(
-    "Hola Dr. Jovani. Realicé una autoevaluación en UROCLINIC y deseo agendar una valoración.",
+    "Hola Dr. Jovani. Me interesa agendar una valoración.",
   )}`;
 }

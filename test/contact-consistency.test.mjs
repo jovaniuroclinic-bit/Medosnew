@@ -9,7 +9,7 @@ test("todo el código público usa un único teléfono", async () => {
   const numbers = [...source.matchAll(/(?:\+?52)?\s*871[\s().-]*\d{3}[\s.-]*\d{4}/g)]
     .map((match) => match[0].replace(/\D/g, "").replace(/^52/, ""));
   assert.ok(numbers.length > 0);
-  assert.ok(numbers.every((number) => number === "8712756523"));
+  assert.ok(numbers.every((number) => number === "8712657523"));
   const whatsappNumbers = [...source.matchAll(/wa\.me\/(\d+)/g)].map((match) => match[1]);
-  assert.ok(whatsappNumbers.every((number) => number === "528712756523"));
+  assert.ok(whatsappNumbers.every((number) => number === "528712657523"));
 });

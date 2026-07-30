@@ -17,7 +17,7 @@ test("WhatsApp comparte solo nombre, categoría y solicitud de cita", () => {
   assert.match(decoded, /evaluación de IPSS/);
   assert.match(decoded, /categoría orientativa fue Síntomas leves/);
   assert.doesNotMatch(decoded, /puntaje|respuesta|q0|edad/i);
-  assert.match(href, /^https:\/\/wa\.me\/528712756523\?text=/);
+  assert.match(href, /^https:\/\/wa\.me\/528712657523\?text=/);
 });
 
 test("interfaz no usa URL, localStorage ni analítica clínica", async () => {
