@@ -423,7 +423,7 @@ const whatsappHref =
           if (!response.ok || result?.accepted !== true) {
             if (response.status === 503) {
               setStatus(
-                "El canal seguro está temporalmente en configuración. Puedes contactarnos por WhatsApp mientras se restablece.",
+                "No pudimos entregar la solicitud en este momento. Intenta nuevamente en unos minutos o contáctanos por WhatsApp.",
                 "error",
               );
             } else {
