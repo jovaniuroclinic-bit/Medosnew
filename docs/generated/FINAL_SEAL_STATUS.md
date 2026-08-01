@@ -1,0 +1,26 @@
+# MEDOS Sentinel Final Seal Status
+
+- Date: 2026-08-01T03:35:32+00:00
+- Project: /workspace/Medosnew
+- Branch: codex/medos-foundation-v1
+- Commit: 0b5dbad1129f5211459cec86d91a4fe9b1a95410
+- Git object validation: PASSED
+- Git fsck strict: PASSED
+- Secret scan: PASSED
+- Rust host: aarch64-unknown-linux-gnu
+- Rust sysroot: /root/.rustup/toolchains/stable-aarch64-unknown-linux-gnu
+- Launcher health: PASSED
+- Launcher bind: 127.0.0.1
+- Vault selected: false
+- External connections: blocked
+- Real audio: disabled
+- Synthetic audio: permitted for tests
+- Docker: not executed
+- Wazuh: not installed
+- Ollama: not installed
+- n8n: not started
+- Backup: /root/MEDOS_BACKUPS/manual/Medosnew-sentinel-sellado-20260801-032847.tar.gz
+- Checksum: /root/MEDOS_BACKUPS/manual/Medosnew-sentinel-sellado-20260801-032847.tar.gz.sha256
+- GPG configuration: preserved
+- Commit signing exception: limited to installation commits
+- Next exact phase: SqliteAuditStore and Consent Engine
