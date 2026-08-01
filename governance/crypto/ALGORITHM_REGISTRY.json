@@ -1,0 +1,8 @@
+{
+  "registry_version": "1.0.0",
+  "algorithms": [
+    {"id": "SHA-256", "purpose": "HASH", "status": "APPROVED"},
+    {"id": "Ed25519", "purpose": "SIGNATURE", "status": "APPROVED"},
+    {"id": "XChaCha20-Poly1305", "purpose": "AEAD", "status": "APPROVED"}
+  ]
+}

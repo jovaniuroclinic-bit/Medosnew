@@ -27,7 +27,6 @@ sentinel-offline/config/privacy.json
 sentinel-offline/config/retention.json
 *.gguf
 *.gpg
-
 *.pem
 *.key
 *.p12
@@ -42,3 +41,31 @@ credentials/
 secrets/
 backups/
 *.pid
+.env.local
+.env.production
+# Local MEDOS private state
+/vault/
+/data/
+/config/
+/runtime/
+/state/
+/sessions/
+/credentials/
+/secrets/
+/backups/
+/tools/
+/scripts/anti-phishing
+
+# MEDOS Sentinel local build artifacts
+/target/
+/target-linux-gnu/
+/target-linux-gnu.pre-repair-*/
+
+# Local sensitive material
+/config/local/
+
+# MEDOS Sentinel local build artifacts
+
+# Local sensitive material
+
+# MEDOS Sentinel local and sensitive artifacts

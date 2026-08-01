@@ -152,3 +152,5 @@ lockButton.addEventListener("click", async () => {
     );
   }
 });
+
+export {};

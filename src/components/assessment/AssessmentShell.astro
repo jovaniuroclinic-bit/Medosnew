@@ -166,9 +166,10 @@ const config = { name, strategy, questions: questions.map(({ domain }) => ({ dom
         domainCounts[domain] = (domainCounts[domain] || 0) + 1;
       });
       const domains = Object.entries(domainTotals).map(([domain, total]) => {
-        const percent = Math.round((total / (domainCounts[domain] * 3)) * 100);
-        return `<div class="domain-row"><span>${domain}</span><progress max="100" value="${percent}">${percent}%</progress></div>`;
-      }).join("");
+        const count = domainCounts[domain] || 1;
+        const percent = Math.round((total / (count * 3)) * 100);
+        return `${domain}: ${percent}%`;
+      }).join(" · ");
       const average = values.reduce((sum, value) => sum + value, 0) / (values.length * 3);
       const category = average < 0.25 ? "Perfil con pocos factores señalados" : average < 0.55 ? "Perfil con aspectos por revisar" : "Perfil con varios factores por revisar";
       return { score: null, max: 100, meter: average * 100, category, explanation: "Este perfil no es una escala diagnóstica. Muestra áreas que conviene revisar con contexto clínico.", extra: domains };
@@ -203,7 +204,7 @@ const config = { name, strategy, questions: questions.map(({ domain }) => ({ dom
         scoreNode.textContent = `Puntaje sintomático: ${output.score} de ${output.max}`;
       }
       result.querySelector("[data-result-explanation]").textContent = output.explanation;
-      result.querySelector("[data-result-extra]").innerHTML = output.extra || "";
+      result.querySelector("[data-result-extra]").textContent = output.extra || "";
       result.querySelector("[data-result-meter]").style.width = `${Math.min(100, ((output.meter ?? output.score ?? 0) / output.max) * 100)}%`;
       result.querySelector("[data-result-date]").textContent = new Intl.DateTimeFormat("es-MX", { dateStyle: "long" }).format(new Date());
       const safeMessage = `Hola Dr. Jovani. Realicé la evaluación de ${config.name} en UROCLINIC. Mi categoría orientativa fue ${output.category}. Deseo agendar una valoración.`;
